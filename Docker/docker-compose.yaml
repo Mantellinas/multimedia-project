@@ -1,0 +1,71 @@
+version: '3.3'
+services:
+  #-------------------------------#
+  # 🖥️ RabbitMQ                   #
+  #-------------------------------#
+  rabbitmq:
+      image: rabbitmq:3-management
+      container_name: rabbitmq
+      environment:
+        - RABBITMQ_DEFAULT_USER=myuser
+        - RABBITMQ_DEFAULT_PASS=mypassword
+      # volumes:
+      #   - ../Rabbitmq/logstash-sink-queue.json:/etc/rabbitmq/definitions.json
+      volumes:
+        - type: bind
+          source: ../Rabbitmq/rabbitmq.config
+          target: /etc/rabbitmq/rabbitmq.config
+        - type: bind
+          source: ../Rabbitmq/logstash-sink-queue.json
+          target: /etc/rabbitmq/rabbitmq-defs.json
+      ports:
+        - "5672:5672"
+        - "15672:15672"
+      networks:
+        - nasa-network
+      restart: always
+
+  logstash:
+    image: docker.elastic.co/logstash/logstash:8.6.2  
+    depends_on:
+      - rabbitmq
+    links:
+      - rabbitmq
+    volumes: 
+      - ../Logstash/pipeline/:/usr/share/logstash/pipeline/
+    environment: 
+        - "LS_JAVA_OPTS=-Xms1g -Xmx1g"
+        - "xpack.monitoring.enabled:true"
+        - "xpack.monitoring.elasticsearch.url:http://elasticsearch:9200"
+    ports:
+      - "10155:10155"
+    networks:
+        - nasa-network
+
+  elasticsearch:
+      container_name: elasticsearch
+      hostname: elasticsearch
+      image: docker.elastic.co/elasticsearch/elasticsearch:8.6.2
+      ports:
+        - "9200:9200"
+        - "9300:9300"      
+      environment:
+        - node.name=elasticsearch
+        - xpack.security.enabled=false
+        - discovery.type=single-node
+        - bootstrap.memory_lock=true
+        - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+        - cluster.routing.allocation.disk.threshold_enabled=false
+      ulimits:
+        memlock:
+          soft: -1
+          hard: -1
+      networks: 
+      - nasa-network
+
+networks:
+  nasa-network:
+    name: nasa-network
+    driver: bridge
+
+

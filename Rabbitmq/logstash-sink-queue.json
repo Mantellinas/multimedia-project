@@ -1,0 +1,51 @@
+{
+    "rabbit_version": "3.11.10",
+    "rabbitmq_version": "3.11.10",
+    "product_name": "RabbitMQ",
+    "product_version": "3.11.10",
+    "users": [
+        {
+            "name": "myuser",
+            "password_hash": "4/2oT7IqzFAZBLHEOEUlIb/EyciXeNfY9efFUkrcsOmgmpW6",
+            "hashing_algorithm": "rabbit_password_hashing_sha256",
+            "tags": [
+                "administrator"
+            ],
+            "limits": {}
+        }
+    ],
+    "vhosts": [
+        {
+            "name": "/"
+        }
+    ],
+    "permissions": [
+        {
+            "user": "myuser",
+            "vhost": "/",
+            "configure": ".*",
+            "write": ".*",
+            "read": ".*"
+        }
+    ],
+    "topic_permissions": [],
+    "parameters": [],
+    "global_parameters": [
+        {
+            "name": "internal_cluster_id",
+            "value": "rabbitmq-cluster-id-KzkJH9nDMvA7HKOKBFgW0A"
+        }
+    ],
+    "policies": [],
+    "queues": [
+        {
+            "name": "logstash-sink-queue",
+            "vhost": "/",
+            "durable": true,
+            "auto_delete": false,
+            "arguments": {}
+        }
+    ],
+    "exchanges": [],
+    "bindings": []
+}
