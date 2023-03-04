@@ -137,6 +137,7 @@ services:
       - nasa-network
 
 
+
 #TODO add nginx e una nuova rete, rabbitmq visibile solo attraverso nginx, tutte le porte non si espongono
 #perchè si vedono comunque essendo sulla stessa rete, si espone solo la porta 80 di nginx
 networks:
