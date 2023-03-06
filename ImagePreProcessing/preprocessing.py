@@ -50,7 +50,7 @@ def preprocessing(imageJson, mongo_connector):
             'rover' : Photos_JS['latest_photos'][i]['rover']['name']
         }
         
-        mongo_connector.writeDocument("mycollection",image)  
+        mongo_connector.writeDocument("base_image",image)  
         print("writed image in DB")
         
 def rabbit_reader(mongo_connector):

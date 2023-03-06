@@ -1,4 +1,5 @@
-db = db.getSiblingDB('mydb');
+db = db.getSiblingDB('image_database');
+
 
 db.createUser(
     {
@@ -7,11 +8,18 @@ db.createUser(
         roles: [
             {
                 role: "readWrite",
-                db: "mydb"
+                db: "image_database"
             }
         ]
     }
 );
 
-db.createCollection('mycollection');
+db.createCollection('base_image');
+db.createCollection('clustering_KMeans')
+db.createCollection('clustering_HOG')
+db.createCollection('FAST')
+db.createCollection('SLIC')
+
+
+
 

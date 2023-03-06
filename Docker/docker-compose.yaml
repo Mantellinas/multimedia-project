@@ -76,7 +76,7 @@ services:
         driver: none
 
   #-------------------------------#
-  # 🖥️ ImageProcessingScript      #
+  # 🖥️ ImagePreProcessingScript   #
   #-------------------------------#
   imagepreprocessing:
     container_name: imagepreprocessing
@@ -89,7 +89,7 @@ services:
         - RABBITQUEUENAME=logstash-sink-queue
         - MONGO_USER=myuser
         - MONGO_PASSWORD=mypassword
-        - MONGO_DATABASE=mydb
+        - MONGO_DATABASE=image_database
     depends_on:
       - rabbitmq
       - mongo_db
@@ -135,6 +135,32 @@ services:
       - mongo_db
     networks:
       - nasa-network
+
+  #-------------------------------#
+  # 🖥️ ImageProcessingScript      #
+  #-------------------------------#
+  imageprocessing:
+    container_name: imageprocessing
+    build:
+      context: ../ImageProcessing
+      dockerfile: Dockerfile   
+    environment:
+        - MONGO_USER=myuser
+        - MONGO_PASSWORD=mypassword
+        - MONGO_DATABASE=image_database
+        - BASE_IMAGE=base_image
+        - CLUSTERING_KMEANS=clustering_KMeans
+        - CLUSTERING_HOG=clustering_HOG
+        - FAST=FAST
+        - SLIC=SLIC
+    ports:
+      - "9000:9000"     #da togliere appena si alza nginx
+    depends_on:
+      - mongo_db
+      - imagepreprocessing
+    networks:
+      - nasa-network
+    restart: always
 
 
 
