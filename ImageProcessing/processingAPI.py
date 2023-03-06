@@ -1,6 +1,7 @@
 from flask import Flask
 from MongoConnector import *
 import os
+from apscheduler.schedulers.background import BackgroundScheduler
 from bson import *
 
 KMEANSCOLLECTION = os.getenv('CLUSTERING_KMEANS')
@@ -8,6 +9,14 @@ HOGSCOLLECTION = os.getenv('CLUSTERING_HOG')
 FASTCOLLECTION = os.getenv('FAST')
 SLICCOLLECTION = os.getenv('SLIC')
 BASECOLLECTION = os.getenv('BASE_IMAGE')
+
+def sensor():
+    """ Function for test purposes. """
+    print("Scheduler is alive!")
+
+sched = BackgroundScheduler(daemon=True)
+sched.add_job(sensor,'interval',minutes=1) #hours
+sched.start()
 
 ProcessingAPI = Flask(__name__)
 
@@ -20,7 +29,7 @@ def getAllImages():
    
 @ProcessingAPI.route("/runKmeans")
 def runKmeans():
-    images = mongo_connector.ge(KMEANSCOLLECTION)
+    images = mongo_connector.getAllDocument(KMEANSCOLLECTION)
     return images
     
    
