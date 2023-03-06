@@ -163,6 +163,22 @@ services:
     restart: always
 
 
+  #-------------------------------#
+  # 🖥️ Springboot Backend         #
+  #-------------------------------#
+  springboot:
+      container_name: spring_server
+      build:
+        context: ../Spring
+        dockerfile: Dockerfile
+      ports:
+        - "8080:8080"
+      networks:
+        - nasa-network
+      restart: on-failure
+      links:
+        - mongo_db
+
 
 #TODO add nginx e una nuova rete, rabbitmq visibile solo attraverso nginx, tutte le porte non si espongono
 #perchè si vedono comunque essendo sulla stessa rete, si espone solo la porta 80 di nginx
