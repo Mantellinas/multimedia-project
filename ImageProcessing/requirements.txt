@@ -1,6 +1,7 @@
 PyYAML
 pymongo
 apscheduler
+opencv-python
 scikit-learn
 tensorflow
 keras

@@ -40,15 +40,11 @@ class Clustering_KMeans_PCA:
             Names.append(entry['_id'])
             
         data = {}
-        i=0
         for img in res:
-            if i>10:
-                break
-            i+=1
             feat = self.extract_features(img,model)
             data[img] = feat
 
-        filenames = np.array(list(data.keys()))
+        filenames = np.array(list(data.keys())) #check
         feat = np.array(list(data.values()))
         feat = feat.reshape(-1,4096)
         

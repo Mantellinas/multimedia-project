@@ -1,10 +1,15 @@
 FROM python:3.9.10
 
 ENV TF_CPP_MIN_LOG_LEVEL="2"
+
 ENV DEBIAN_FRONTEND=noninteractive
+
 RUN apt-get update -y
 
+RUN apt-get install -y python3-opencv
+
 RUN apt-get install -y tzdata
+
 WORKDIR /app
 
 COPY . . 

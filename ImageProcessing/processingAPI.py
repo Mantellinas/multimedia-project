@@ -1,12 +1,16 @@
 from apscheduler.schedulers.background import BackgroundScheduler
-from Clustering_KMeans_PCA import * 
 from flask import Flask
+from Clustering_KMeans_PCA import * 
+from Corner_Detector_FAST import *
 
 ProcessingAPI = Flask(__name__)
 
-x = Clustering_KMeans_PCA()
+clustering_K_means = Clustering_KMeans_PCA()
+cd_FAST = Corner_Detector_FAST()
+
 sched = BackgroundScheduler(daemon=True)
-sched.add_job(x.computate,'interval',minutes=1) #hours
+sched.add_job(clustering_K_means.computate,'interval',minutes=1) #hours
+sched.add_job(cd_FAST.computate,'interval',minutes=1)
 sched.start()
 
 if __name__ == "__main__":
