@@ -1,4 +1,9 @@
 PyYAML
 pymongo
-flask
 apscheduler
+scikit-learn
+tensorflow
+keras
+numpy
+Pillow
+flask
