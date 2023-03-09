@@ -148,7 +148,7 @@ services:
         - MONGO_USER=myuser
         - MONGO_PASSWORD=mypassword
         - MONGO_DATABASE=image_database
-        - DAEMON_INTERVAL = 10
+        - DAEMON_INTERVAL=10 
         - BASE_IMAGE=base_image
         - CLUSTERING_KMEANS=clustering_KMeans
         - CLUSTERING_HOG=clustering_HOG
