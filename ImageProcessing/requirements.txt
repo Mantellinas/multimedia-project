@@ -3,6 +3,7 @@ pymongo
 apscheduler
 opencv-python
 scikit-learn
+scikit-image
 tensorflow
 keras
 numpy

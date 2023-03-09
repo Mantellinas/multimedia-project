@@ -7,7 +7,6 @@ from PIL import Image
 from MongoConnector import *
 import numpy as np
 import base64
-import json
 import io
 
 COLLECTION = os.getenv('BASE_IMAGE')
@@ -32,7 +31,6 @@ class Clustering_KMeans_PCA:
         model = Model(inputs = model.inputs, outputs = model.layers[-2].output)
 
         results = self.mongo_connector.getAllDocument(COLLECTION)
-        results = json.loads(results)
 
         res = []
         for entry in results:

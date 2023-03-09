@@ -1,7 +1,8 @@
 from pymongo import MongoClient
 from bson.objectid import ObjectId
-import os
 from bson.json_util import dumps
+import os
+import json
 
 
 MONGO_USR = os.getenv('MONGO_USER')
@@ -58,7 +59,7 @@ class MongoConnector:
         database, collection = self.database_collection_selection(collection_name)
         cursor = collection.find()
         list_cur = list(cursor)
-        return dumps(list_cur, indent = 2)
+        return json.loads(dumps(list_cur, indent = 2))
         
 
         

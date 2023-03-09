@@ -4,7 +4,6 @@ import base64
 import numpy as np
 import cv2 as cv
 import io
-import json
 
 COLLECTION = os.getenv('BASE_IMAGE')
 OUTPUTCOLLECTION = os.getenv('FAST')
@@ -15,7 +14,6 @@ class Corner_Detector_FAST:
 
     def computate(self):
         results = self.mongo_connector.getAllDocument(COLLECTION)
-        results = json.loads(results)
 
         Names = []
         images = []
