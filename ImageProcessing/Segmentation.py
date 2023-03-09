@@ -1,15 +1,13 @@
-import base64
-import io
+import cv2 as cv
 import numpy as np
-from PIL import Image
-from skimage.color import rgb2gray
-from skimage.filters import sobel
-from skimage.segmentation import felzenszwalb, slic, quickshift, watershed
-from skimage.segmentation import mark_boundaries
+import base64
+import io 
+import os
 from MongoConnector import *
+from PIL import Image
 
 COLLECTION = os.getenv('BASE_IMAGE')
-OUTPUTCOLLECTION = os.getenv('SLIC')
+OUTPUTCOLLECTION = os.getenv('SEGMENTATION')
 
 class Segmentation:
     def __init__(self):
@@ -23,52 +21,88 @@ class Segmentation:
         for entry in results:
             images.append(base64.b64decode(entry['img']['$binary']['base64']))
             Names.append(entry['_id']['$oid'])
-        i=0
-        for img in images:
-            img = Image.open(io.BytesIO(images[0]))
+
+        for image in images:
+            img = Image.open(io.BytesIO(image))
             img = np.array(img)
-        
-            segments_fz = felzenszwalb(img, scale=100, sigma=0.5, min_size=50)
-            segments_slic = slic(img, n_segments=250, compactness=10, sigma=1,start_label=1)
-            segments_quick = quickshift(img, kernel_size=3, max_dist=6, ratio=0.5)
-            gradient = sobel(rgb2gray(img))
-            segments_watershed = watershed(gradient, markers=250, compactness=0.001)
-
-            image = mark_boundaries(img, segments_fz)
-            im = Image.fromarray((image * 255).astype(np.uint8))  
-            image_bytes_fz = io.BytesIO()
-            im.save(image_bytes_fz, format='png')
-            
-
-            image = mark_boundaries(img, segments_slic)
-            im = Image.fromarray((image * 255).astype(np.uint8))  
-            image_bytes_slic = io.BytesIO()
-            im.save(image_bytes_slic, format='png')
+            gray = cv.cvtColor(img,cv.COLOR_BGR2GRAY)
+            ret, thresh = cv.threshold(gray,0,255,cv.THRESH_BINARY_INV+cv.THRESH_OTSU)
 
 
-            image = mark_boundaries(img, segments_quick)
-            im = Image.fromarray((image * 255).astype(np.uint8))
-            image_bytes_quick = io.BytesIO()
-            im.save(image_bytes_quick, format='png')
+            im = Image.fromarray((img))  
+            image_bytes_base= io.BytesIO()
+            im.save(image_bytes_base, format='png')
 
 
-            image = mark_boundaries(img, segments_watershed)
-            im = Image.fromarray((image * 255).astype(np.uint8))
-            image_bytes_watershed = io.BytesIO()
-            im.save(image_bytes_watershed, format='png')
+            im = Image.fromarray((gray))  
+            image_bytes_gray= io.BytesIO()
+            im.save(image_bytes_gray, format='png')
 
 
+            im = Image.fromarray((thresh))  
+            image_bytes_thresh= io.BytesIO()
+            im.save(image_bytes_thresh, format='png')
+
+            # noise removal
+            kernel = np.ones((3,3),np.uint8)
+            opening = cv.morphologyEx(thresh,cv.MORPH_OPEN,kernel, iterations = 2)
+            # sure background area
+            sure_bg = cv.dilate(opening,kernel,iterations=3)
+            # Finding sure foreground area
+            dist_transform = cv.distanceTransform(opening,cv.DIST_L2,5)
+            ret, sure_fg = cv.threshold(dist_transform,0.7*dist_transform.max(),255,0)
+            # Finding unknown region
+            sure_fg = np.uint8(sure_fg)
+            unknown = cv.subtract(sure_bg,sure_fg) 
+
+
+            im = Image.fromarray((opening))  
+            image_bytes_opening= io.BytesIO()
+            im.save(image_bytes_opening, format='png')
+
+
+            im = Image.fromarray((sure_bg))  
+            image_bytes_sure_bg= io.BytesIO()
+            im.save(image_bytes_sure_bg, format='png')
+
+
+            im = Image.fromarray((sure_fg))  
+            image_bytes_sure_fg= io.BytesIO()
+            im.save(image_bytes_sure_fg, format='png')
+
+            ret, markers = cv.connectedComponents(sure_fg)
+            markers = markers+1
+            markers[unknown==255] = 0
+
+            im =Image.fromarray((markers * 255).astype(np.uint8))
+            image_bytes_img_markers = io.BytesIO()
+            im.save(image_bytes_img_markers, format='png')
+
+            markers = cv.watershed(img,markers)
+            img[markers == -1] = [255,0,0]
+            im =Image.fromarray((markers * 255).astype(np.uint8))
+            image_bytes_img_markers_ws = io.BytesIO()
+            im.save(image_bytes_img_markers_ws, format='png')
+
+
+            im =Image.fromarray((img * 255).astype(np.uint8))
+            image_bytes_img_markers_img = io.BytesIO()
+            im.save(image_bytes_img_markers_img, format='png')
+
+
+            i=1
             res_json = {
-                'base_image_id':Names[i],
-                'felzenszwalb_segment':len(np.unique(segments_fz)),
-                'slic_segment': len(np.unique(segments_slic)),
-                'quickshift_segment': len(np.unique(segments_quick)),
-                'watershed_segment' : len(np.unique(segments_watershed)),
-                'felzenszwalb_img': image_bytes_fz.getvalue(),
-                'SLIC_img' : image_bytes_slic.getvalue(),
-                'quickshift_img' : image_bytes_quick.getvalue(),
-                'watershed_img' : image_bytes_watershed.getvalue()
+                'base_image_id': Names[i],
+                'img_originale' : image_bytes_base.getvalue(),
+                'img_grey' : image_bytes_gray.getvalue(),
+                'img_thresh' : image_bytes_thresh.getvalue(),
+                'img_opening' : image_bytes_opening.getvalue(),
+                'img_sure_bg' : image_bytes_sure_bg.getvalue(),
+                'img_sure_fg': image_bytes_sure_fg.getvalue(),
+                'img_markers' : image_bytes_img_markers.getvalue(),
+                'img_markers_watershed' : image_bytes_img_markers_ws.getvalue(),
+                'img_markers_img_border' : image_bytes_img_markers_img.getvalue()
             }
-            self.mongo_connector.writeDocument(OUTPUTCOLLECTION,res_json)
             i+=1
+            self.mongo_connector.writeDocument(OUTPUTCOLLECTION,res_json)
 

@@ -19,6 +19,7 @@ db.createCollection('clustering_KMeans')
 db.createCollection('clustering_HOG')
 db.createCollection('FAST')
 db.createCollection('SLIC')
+db.createCollection('Segmentation')
 
 
 
