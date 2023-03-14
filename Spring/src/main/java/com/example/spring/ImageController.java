@@ -22,6 +22,8 @@ public class ImageController {
 
     @Autowired
      private ImageService Imageservice;
+    @Autowired
+    private FastService fastservice;
 
     @RequestMapping("/")
     public ModelAndView welcome(Model model) {
@@ -46,14 +48,13 @@ public class ImageController {
         ModelAndView modelAndView = new ModelAndView();
         // get latest image and latest 12 images
         String baseImageId = req.getParameter("baseImageId");
-        System.out.println("QUI: "+baseImageId);
-        FastImage fastImage = Imageservice.getFastImage(baseImageId);
-        Optional<BaseImage> baseImagePrincipal = Imageservice.getBaseImageById(baseImageId);
+        Optional<FastImage> fastImage = fastservice.getFastImage(baseImageId);
+        //Optional<BaseImage> baseImagePrincipal = Imageservice.getBaseImageById(baseImageId);
 
         model.addAttribute("fastImage",
-                Base64.getEncoder().encodeToString(fastImage.img.getData()));
-        model.addAttribute("baseImage",
-                Base64.getEncoder().encodeToString(baseImagePrincipal.get().img.getData()));
+                Base64.getEncoder().encodeToString(fastImage.get().img.getData()));
+        //model.addAttribute("baseImage",
+                //Base64.getEncoder().encodeToString(baseImagePrincipal.get().img.getData()));
         modelAndView.setViewName("fast.html");
         return modelAndView;
     }

@@ -10,8 +10,6 @@ public class ImageService {
 
     @Autowired
     ImageRepository imageRepo;
-    @Autowired
-    FastImageRepository fastRepo;
     public List<BaseImage> getAllImage() {
         return imageRepo.findAll();
     }
@@ -23,8 +21,5 @@ public class ImageService {
     }
     public List<BaseImage> getLatest12Images(){
         return imageRepo.findTop12ByOrderByIdDesc();
-    }
-    public FastImage getFastImage(String id){
-        return fastRepo.findByBaseImageId(id);
     }
 }
