@@ -5,7 +5,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document("base_image")
-public class Image {
+public class BaseImage {
 
     @Id
     public String id;
@@ -13,6 +13,6 @@ public class Image {
     public String camera_name;
     public String rover;
 
-    Image(){}
+    BaseImage(){}
 
 }
