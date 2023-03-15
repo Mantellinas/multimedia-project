@@ -49,12 +49,12 @@ public class ImageController {
         // get latest image and latest 12 images
         String baseImageId = req.getParameter("baseImageId");
         Optional<FastImage> fastImage = fastservice.getFastImage(baseImageId);
-        //Optional<BaseImage> baseImagePrincipal = Imageservice.getBaseImageById(baseImageId);
+        Optional<BaseImage> baseImagePrincipal = Imageservice.getBaseImageById(baseImageId);
 
         model.addAttribute("fastImage",
                 Base64.getEncoder().encodeToString(fastImage.get().img.getData()));
-        //model.addAttribute("baseImage",
-                //Base64.getEncoder().encodeToString(baseImagePrincipal.get().img.getData()));
+        model.addAttribute("baseImage",
+                Base64.getEncoder().encodeToString(baseImagePrincipal.get().img.getData()));
         modelAndView.setViewName("fast.html");
         return modelAndView;
     }

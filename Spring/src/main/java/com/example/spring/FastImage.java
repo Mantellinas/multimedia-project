@@ -10,7 +10,7 @@ public class FastImage {
     @Id
     public String id;
     public Binary img;
-    public String base_image_id;
+    public String baseimageid;
 
     FastImage(){}
 }
