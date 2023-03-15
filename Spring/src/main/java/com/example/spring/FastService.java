@@ -13,6 +13,6 @@ public class FastService {
         return fastRepo.findAllByBaseimageid(id);
     }
     public Optional<FastImage> getFastImageById(String id){
-        return fastRepo.findById(id);
+        return fastRepo.findFirstById(id);
     }
 }

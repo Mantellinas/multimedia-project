@@ -13,5 +13,5 @@ public interface FastImageRepository extends MongoRepository<FastImage, String> 
     //@Query("{base_image_id:'?0'}")
     //Optional<FastImage>  findByBaseImageId(String base_image_id);
 
-    public Optional<FastImage> findById(String id);
+    public Optional<FastImage> findFirstById(String id);
 }
