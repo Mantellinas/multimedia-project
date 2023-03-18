@@ -1,13 +1,27 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>FAST</title>
+    <title>Image Comparison</title>
+    <style>
+        /* Style for the image container */
+        .image-container {
+            display: flex;
+            flex-direction: row;
+        }
+
+        /* Style for the left and right images */
+        .image-container img {
+            width: 50%;
+            height: auto;
+            object-fit: cover;
+        }
+    </style>
 </head>
 <body>
-<img alt="" class="img-pr" th:src="*{'data:image/png;base64,'+fastImage}"
-     src="">
-<img alt="" class="img-pr" th:src="*{'data:image/png;base64,'+baseImage}"
-     src="">
+<h1>Image Comparison</h1>
+<div class="image-container">
+    <img th:src="*{'data:image/png;base64,'+fastImage}" alt="Image 1">
+    <img th:src="*{'data:image/png;base64,'+baseImage}" alt="Image 2">
+</div>
 </body>
 </html>

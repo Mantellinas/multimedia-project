@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+
+<html>
+<head>
+    <title>Page Title</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: sans-serif;
+        }
+
+        .image-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            padding: 1rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .image-grid img {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+<div class="image-grid">
+    <img th:src="*{'data:image/png;base64,'+imageOriginale}" alt="imageOriginale">
+    <img th:src="*{'data:image/png;base64,'+imgGrey}" alt="imgGrey">
+    <img th:src="*{'data:image/png;base64,'+imgThresh}" alt="imgThresh">
+    <img th:src="*{'data:image/png;base64,'+imgOpening}" alt="imgOpening">
+    <img th:src="*{'data:image/png;base64,'+ImgSureFg}" alt="ImgSureFg">
+    <img th:src="*{'data:image/png;base64,'+ImgSureBg}" alt="ImgSureBg">
+    <img th:src="*{'data:image/png;base64,'+ImgMakers}" alt="ImgMakers">
+    <img th:src="*{'data:image/png;base64,'+ImgWatershed}" alt="ImgWatershed">
+    <img th:src="*{'data:image/png;base64,'+ImgBorder}" alt="ImgBorder">
+    <img th:src="*{'data:image/png;base64,'+baseImage}" alt="baseImage">
+</div>
+</body>
+</html>

@@ -8,7 +8,7 @@ import java.util.Optional;
 
 @Repository
 public interface FastImageRepository extends MongoRepository<FastImage, String> {
-    public Optional<FastImage> findAllByBaseimageid(String id);
+    public Optional<FastImage> findFirstByBaseimageid(String id);
 
     //@Query("{base_image_id:'?0'}")
     //Optional<FastImage>  findByBaseImageId(String base_image_id);

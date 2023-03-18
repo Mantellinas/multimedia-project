@@ -21,10 +21,16 @@ import java.util.Optional;
 public class ImageController {
 
     @Autowired
-     private ImageService Imageservice;
+    private ImageService Imageservice;
     @Autowired
     private FastService fastservice;
+    @Autowired
 
+    private SegImageService segImageService;
+
+    @Autowired
+
+    private SlicImageService slicImageService;
     @RequestMapping("/")
     public ModelAndView welcome(Model model) {
         ModelAndView modelAndView = new ModelAndView();
@@ -43,11 +49,10 @@ public class ImageController {
         return modelAndView;
     }
 
-    @RequestMapping(value = "fast", method = {RequestMethod.GET})
-    public ModelAndView fast(Model model, HttpServletRequest req) {
+    @GetMapping("/fast")
+    public ModelAndView fast(@RequestParam("baseImageId") String baseImageId, Model model) {
         ModelAndView modelAndView = new ModelAndView();
         // get latest image and latest 12 images
-        String baseImageId = req.getParameter("baseImageId");
         Optional<FastImage> fastImage = fastservice.getFastImage(baseImageId);
         Optional<BaseImage> baseImagePrincipal = Imageservice.getBaseImageById(baseImageId);
 
@@ -56,6 +61,59 @@ public class ImageController {
         model.addAttribute("baseImage",
                 Base64.getEncoder().encodeToString(baseImagePrincipal.get().img.getData()));
         modelAndView.setViewName("fast.html");
+        return modelAndView;
+    }
+    @GetMapping("/segmentation")
+    public ModelAndView segmentation(@RequestParam("baseImageIdSeg") String baseImageIdSeg, Model model) {
+        ModelAndView modelAndView = new ModelAndView();
+        // get latest image and latest 12 images
+        Optional<SegImage> segImage = segImageService.getSegImageByBaseId(baseImageIdSeg);
+        Optional<BaseImage> baseImagePrincipal = Imageservice.getBaseImageById(baseImageIdSeg);
+
+        model.addAttribute("imageOriginale",
+                Base64.getEncoder().encodeToString(segImage.get().imgOriginale.getData()));
+        model.addAttribute("imgGrey",
+                Base64.getEncoder().encodeToString(segImage.get().imgGrey.getData()));
+        model.addAttribute("imgThresh",
+                Base64.getEncoder().encodeToString(segImage.get().imgThresh.getData()));
+        model.addAttribute("imgOpening",
+                Base64.getEncoder().encodeToString(segImage.get().imgOpening.getData()));
+        model.addAttribute("ImgSureFg",
+                Base64.getEncoder().encodeToString(segImage.get().imgSureFg.getData()));
+        model.addAttribute("ImgSureBg",
+                Base64.getEncoder().encodeToString(segImage.get().imgSureBg.getData()));
+        model.addAttribute("ImgMakers",
+                Base64.getEncoder().encodeToString(segImage.get().imgMarkers.getData()));
+        model.addAttribute("ImgWatershed",
+                Base64.getEncoder().encodeToString(segImage.get().imgMarkersWatershed.getData()));
+        model.addAttribute("ImgBorder",
+                Base64.getEncoder().encodeToString(segImage.get().imgMarkersImgBorder.getData()));
+        model.addAttribute("baseImage",
+                Base64.getEncoder().encodeToString(baseImagePrincipal.get().img.getData()));
+        modelAndView.setViewName("segmentation.html");
+        return modelAndView;
+    }
+
+    @GetMapping("/slic")
+    public ModelAndView slic(@RequestParam("baseImageIdSlic") String baseImageIdSlic, Model model) {
+        ModelAndView modelAndView = new ModelAndView();
+        // get latest image and latest 12 images
+        Optional<Slic> slicImage = slicImageService.getSlicImageByBaseId(baseImageIdSlic);
+        Optional<BaseImage> baseImagePrincipal = Imageservice.getBaseImageById(baseImageIdSlic);
+
+        model.addAttribute("felzenszwalbImg",
+                Base64.getEncoder().encodeToString(slicImage.get().felzenszwalbImg.getData()));
+        model.addAttribute("SLICImg",
+                Base64.getEncoder().encodeToString(slicImage.get().SLICImg.getData()));
+        model.addAttribute("quickshiftImg",
+                Base64.getEncoder().encodeToString(slicImage.get().quickshiftImg.getData()));
+        model.addAttribute("watershedImg",
+                Base64.getEncoder().encodeToString(slicImage.get().watershedImg.getData()));
+        model.addAttribute("felzenszwalbSegment", slicImage.get().felzenszwalbSegment);
+        model.addAttribute("quickshiftSegment", slicImage.get().quickshiftSegment);
+        model.addAttribute("slicSegment", slicImage.get().slicSegment);
+        model.addAttribute("watershedSegment", slicImage.get().watershedSegment);
+        modelAndView.setViewName("slic.html");
         return modelAndView;
     }
 

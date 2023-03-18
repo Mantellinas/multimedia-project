@@ -31,21 +31,25 @@ prova index3
     <div class="row">
       <div class="col-3">
         <div class="card col-sm-12">
-          <div class="card-body">
+          <form id="segmentation-form" action="/segmentation"  method="get">
+          <div class="card-body seg-form">
             <img class="card-img" th:src="@{images/icons8-segmentation-64.png}"></img>
+            <input hidden type="text" name="baseImageIdSeg" id="baseImageIdSeg" th:value="*{baseImageId}" style="">
             <h5 class="card-title">Segmentazione</h5>
             <p class="card-text">Some quick example text to build on the card title and make up the bulk
               of
               the
               card's content.</p>
           </div>
+          </form>
         </div>
       </div>
       <div class="col-3">
         <div class="card col-sm-12">
-          <form th:action="@{/fast}"  method="get">
+          <form action="/fast"  method="get">
           <div class="card-body card-form">
-            <img class="card-img" th:src="@{images/fast.png}" name="baseImageId" id="baseImageId" th:value="*{baseImageId}"></img>
+            <img class="card-img" th:src="@{images/fast.png}"></img>
+            <input hidden type="text" name="baseImageId" id="baseImageId" th:value="*{baseImageId}" style="">
             <h5 class="card-title">FAST</h5>
             <p class="card-text">Some quick example text to build on the card title and make up the bulk
               of
@@ -67,14 +71,17 @@ prova index3
       </div>
       <div class="col-3">
         <div class="card col-sm-12">
-          <div class="card-body">
-            <h5 class="card-title">KNN</h5>
+          <form id="slic-form" action="/slic"  method="get">
+          <div class="card-body form-slic">
+            <h5 class="card-title">Slic</h5>
+            <input hidden type="text" name="baseImageIdSlic" id="baseImageIdSlic" th:value="*{baseImageId}" style="">
             <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
             <p class="card-text">Some quick example text to build on the card title and make up the bulk
               of
               the
               card's content.</p>
           </div>
+          </form>
         </div>
       </div>
     </div>
@@ -146,6 +153,12 @@ prova index3
 
     $( ".card-form" ).click(function() {
       $( "form" ).submit();
+    });
+    $( ".seg-form" ).click(function() {
+      $( "#segmentation-form" ).submit();
+    });
+    $( ".form-slic" ).click(function() {
+      $( "#slic-form" ).submit();
     });
   })
 </script>

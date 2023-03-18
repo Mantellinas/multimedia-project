@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+
+<html>
+<head>
+  <title>Page Title</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: sans-serif;
+    }
+
+    .image-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1rem;
+      padding: 1rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .image-grid img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+  </style>
+</head>
+<body>
+<div class="image-grid">
+  <img th:src="*{'data:image/png;base64,'+felzenszwalbImg}" alt="felzenszwalbImg">
+  <img th:src="*{'data:image/png;base64,'+SLICImg}" alt="SLICImg">
+  <img th:src="*{'data:image/png;base64,'+quickshiftImg}" alt="quickshiftImg">
+  <img th:src="*{'data:image/png;base64,'+watershedImg}" alt="watershedImg">
+</div>
+<p th:text="${felzenszwalbSegment}"></p>
+<p th:text="${quickshiftSegment}"></p>
+<p th:text="${slicSegment}"></p>
+<p th:text="${watershedSegment}"></p>
+</body>
+</html>

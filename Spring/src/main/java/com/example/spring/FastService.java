@@ -10,7 +10,7 @@ public class FastService {
     @Autowired
     FastImageRepository fastRepo;
     public Optional<FastImage> getFastImage(String id){
-        return fastRepo.findAllByBaseimageid(id);
+        return fastRepo.findFirstByBaseimageid(id);
     }
     public Optional<FastImage> getFastImageById(String id){
         return fastRepo.findFirstById(id);

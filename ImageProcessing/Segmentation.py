@@ -92,16 +92,16 @@ class Segmentation:
 
             i=1
             res_json = {
-                'base_image_id': Names[i],
-                'img_originale' : image_bytes_base.getvalue(),
-                'img_grey' : image_bytes_gray.getvalue(),
-                'img_thresh' : image_bytes_thresh.getvalue(),
-                'img_opening' : image_bytes_opening.getvalue(),
-                'img_sure_bg' : image_bytes_sure_bg.getvalue(),
-                'img_sure_fg': image_bytes_sure_fg.getvalue(),
-                'img_markers' : image_bytes_img_markers.getvalue(),
-                'img_markers_watershed' : image_bytes_img_markers_ws.getvalue(),
-                'img_markers_img_border' : image_bytes_img_markers_img.getvalue()
+                'baseImageId': Names[i],
+                'imgOriginale' : image_bytes_base.getvalue(),
+                'imgGrey' : image_bytes_gray.getvalue(),
+                'imgThresh' : image_bytes_thresh.getvalue(),
+                'imgOpening' : image_bytes_opening.getvalue(),
+                'imgSureBg' : image_bytes_sure_bg.getvalue(),
+                'imgSureFg': image_bytes_sure_fg.getvalue(),
+                'imgMarkers' : image_bytes_img_markers.getvalue(),
+                'imgMarkersWatershed' : image_bytes_img_markers_ws.getvalue(),
+                'imgMarkersImgBorder' : image_bytes_img_markers_img.getvalue()
             }
             i+=1
             self.mongo_connector.writeDocument(OUTPUTCOLLECTION,res_json)

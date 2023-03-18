@@ -1,0 +1,68 @@
+.badge-orange {
+    height: 300px;
+    background-color: #f86449;
+}
+
+body {
+    font-family: "Trirong", serif;
+}
+
+.card {
+    border-radius: 0;
+    position: relative;
+    top: 200px;
+}
+
+.card-img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+    width: 64px;
+    height: 64px;
+}
+
+.img-pr {
+    position: relative;
+    bottom: -100px;
+    height: 480px;
+    width: 480px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+#container {
+    max-width: 850px;
+    margin: 0 auto;
+    padding: 20px;
+    text-align: center;
+}
+
+#griglia {
+    padding: 0;
+    margin: 0;
+}
+#griglia , img {
+    margin-bottom: 5px;
+}
+#griglia li {
+    display: inline-block;
+    width: 160px;
+    vertical-align: middle;
+}
+
+#griglia li p {
+    margin: 0;
+    font-size: 12px;
+    color: #fff;
+}
+img{
+    cursor: pointer;
+}
+footer {
+    background-color: #333 !important;
+}
+
+footer , span {
+    color: white;
+}
