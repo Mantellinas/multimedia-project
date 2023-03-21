@@ -1,6 +1,7 @@
 package com.example.spring;
 
 import org.bson.types.Binary;
+import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -8,8 +9,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 public class SegImage {
     @Id
-    public String id;
-    public String baseImageId;
+    public ObjectId id;
+    public ObjectId baseImageId;
     public Binary imgOriginale;
     public Binary imgGrey;
     public Binary imgThresh;

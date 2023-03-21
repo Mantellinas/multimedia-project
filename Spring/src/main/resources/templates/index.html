@@ -4,110 +4,60 @@
 <head>
   <title>Multimedia</title>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <link th:href="@{/css/style.css}" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css" integrity="sha512-MpQiHStlt/9GCO+ifDyqL+gHt2EJ+I1Rt7ZMvMllpJ7M8X5Pcblnue5BvNyquV7C8KjITDNQ7fZbnnJ5V7P8A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Trirong">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
-  <link href="../static/css/style.css" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
-          integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
-          crossorigin="anonymous"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
 </head>
 
 <body>
-prova index3
-<div>
-  <div class="container">
-    <div class="row">
-      <img alt="" class="img-pr" th:src="*{'data:image/png;base64,'+image}"
-           src="">
-    </div>
-  </div>
-</div>
-<div class="badge-orange">
-  <div class="container">
-    <div class="row">
-      <div class="col-3">
-        <div class="card col-sm-12">
-          <form id="segmentation-form" action="/segmentation"  method="get">
-          <div class="card-body seg-form">
-            <img class="card-img" th:src="@{images/icons8-segmentation-64.png}"></img>
-            <input hidden type="text" name="baseImageIdSeg" id="baseImageIdSeg" th:value="*{baseImageId}" style="">
-            <h5 class="card-title">Segmentazione</h5>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk
-              of
-              the
-              card's content.</p>
-          </div>
-          </form>
-        </div>
+<header>
+  <h1 class="title">Page Title</h1>
+  <p class="date">March 16, 2023</p>
+</header>
+
+<main>
+  <!-- <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis in est ac enim aliquam bibendum eget vitae eros. Nulla dapibus mauris mauris, quis lacinia dolor euismod et. Vestibulum at congue lacus, id pretium ipsum. Nam in nisi sit amet arcu sollicitudin molestie.</p> -->
+  <img alt="" class="img-pr" th:src="*{'data:image/png;base64,'+image}">
+</main>
+
+
+<nav class="right-nav">
+  <ul>
+    <li class="card"><a href="#">
+      <img class="card-img" th:src="@{images/icons8-clustering-64.png}"></img>
+      <h2 class="card-title">Clustering</h2>
+      <p class="card-text">Suddivisione di un oggetto in k gruppi sulla base
+        delle loro feature</p>
+    </a></li>
+    <li class="card"><form id="fast-form" action="/fast"  method="get">
+      <div class="fast-form">
+      <img th:src="@{images/fast.png}" alt="Image 2">
+        <input hidden type="text" name="baseImageId" id="baseImageId" th:value="*{baseImageId}" style="">
+        <h2>FAST</h2>
       </div>
-      <div class="col-3">
-        <div class="card col-sm-12">
-          <form action="/fast"  method="get">
-          <div class="card-body card-form">
-            <img class="card-img" th:src="@{images/fast.png}"></img>
-            <input hidden type="text" name="baseImageId" id="baseImageId" th:value="*{baseImageId}" style="">
-            <h5 class="card-title">FAST</h5>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk
-              of
-              the
-              card's content.</p>
-          </div>
-          </form>
-        </div>
+    </form></li>
+    <form id="slic-form" action="/slic"  method="get">
+      <div class="form-slic">
+        <input hidden type="text" name="baseImageIdSlic" id="baseImageIdSlic" th:value="*{baseImageId}" style="">
+        <img src="image3.jpg" alt="Image 3">
+      <h2>Services</h2>
       </div>
-      <div class="col-3">
-        <div class="card col-sm-12">
-          <div class="card-body">
-            <img class="card-img" th:src="@{images/icons8-clustering-64.png}"></img>
-            <h5 class="card-title">Clustering</h5>
-            <p class="card-text">Suddivisione di un oggetto in k gruppi sulla base
-              delle loro feature</p>
-          </div>
-        </div>
-      </div>
-      <div class="col-3">
-        <div class="card col-sm-12">
-          <form id="slic-form" action="/slic"  method="get">
-          <div class="card-body form-slic">
-            <h5 class="card-title">Slic</h5>
-            <input hidden type="text" name="baseImageIdSlic" id="baseImageIdSlic" th:value="*{baseImageId}" style="">
-            <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk
-              of
-              the
-              card's content.</p>
-          </div>
-          </form>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-<p style="padding-top: 150px; padding-left: 10px"> Latest photos: </p>
-<div id="container">
-  <ul id="griglia">
-    <li th:each="images: ${images}">
-      <img class="img-sec" th:src="*{'data:image/png;base64,'+images}"width="160" height="160">
-    </li>
+    </form></li>
+    <li class="card"><form id="segmentation-form" action="/segmentation"  method="get">
+      <div class="seg-form">
+      <input hidden type="text" name="baseImageIdSeg" id="baseImageIdSeg" th:value="*{baseImageId}" style="">
+      <img th:src="@{images/icons8-segmentation-64.png}" alt="Image 4">
+      <h2>Contact</h2></div>
+    </form></li>
   </ul>
-</div>
-
-
-
-<!-- Footer -->
+</nav>
 <footer class="text-center text-lg-start text-muted">
-  <!-- Section: Social media -->
   <section class="d-flex justify-content-center justify-content-lg-between p-4 border-bottom">
-    <!-- Left -->
     <div class="me-5 d-none d-lg-block">
       <span>Get connected with us on social networks:</span>
     </div>
-    <!-- Left -->
-    <!-- Right -->
     <div>
       <a href="" class="me-4">
         <i class="bi bi-facebook" style="color: white;"></i>
@@ -119,30 +69,19 @@ prova index3
         <i class="bi bi-github" style="color: white;"></i>
       </a>
     </div>
-    <!-- Right -->
-  </section>
-  <!-- Section: Social media -->
-  <!-- Section: Links  -->
-  <section class="">
-    <div class="container text-center text-md-start mt-5">
-      <!-- Grid row -->
-      <div class="row mt-3">
-
-        <div class="me-5 d-none d-lg-block">
-          <span>Get connected with us on social networks:</span>
-        </div>
-      </div>
-    </div>
-  </section>
-  <!-- Section: Links  -->
-
-  <!-- Copyright -->
-  <!-- Copyright -->
 </footer>
-<!-- Footer -->
 </body>
 <script>
   $(document).ready(function () {
+
+    var today = new Date();
+    var dd = String(today.getDate()).padStart(2, '0');
+    var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+    var yyyy = today.getFullYear();
+
+    today = dd + '/' + mm + '/' + yyyy;
+    $('.date').text(today);
+
   $(".img-sec").click(function () {
   let imgselected = $(this).attr("src");
   $(".img-pr").attr("src",imgselected);
@@ -151,8 +90,8 @@ prova index3
 
 
 
-    $( ".card-form" ).click(function() {
-      $( "form" ).submit();
+    $( ".fast-form" ).click(function() {
+      $( "#fast-form" ).submit();
     });
     $( ".seg-form" ).click(function() {
       $( "#segmentation-form" ).submit();

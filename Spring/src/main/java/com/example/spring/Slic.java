@@ -1,15 +1,16 @@
 package com.example.spring;
 
 import org.bson.types.Binary;
+import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document("SLIC")
 public class Slic {
     @Id
-    public String id;
+    public ObjectId id;
 
-    public String baseImageId;
+    public ObjectId baseImageId;
     public int felzenszwalbSegment;
     public int slicSegment;
     public int quickshiftSegment;

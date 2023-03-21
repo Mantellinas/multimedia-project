@@ -1,68 +1,88 @@
-.badge-orange {
-    height: 300px;
-    background-color: #f86449;
+/* Style for the header */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    background-color: #eee;
+    border-bottom: 1px solid #ccc;
 }
 
-body {
-    font-family: "Trirong", serif;
+.img-pr{
+    display: block; margin: 0 auto; width: 200px; height: 200px;
+}
+/* Style for the title */
+.title {
+    text-align: center;
+    font-size: 2rem;
+    margin: 0;
 }
 
-.card {
-    border-radius: 0;
-    position: relative;
-    top: 200px;
+/* Style for the date */
+.date {
+    text-align: right;
+    font-size: 1rem;
+    margin: 0;
 }
 
-.card-img {
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    width: 50%;
-    width: 64px;
-    height: 64px;
-}
-
-.img-pr {
-    position: relative;
-    bottom: -100px;
-    height: 480px;
-    width: 480px;
-    left: 50%;
-    transform: translateX(-50%);
-}
-
-#container {
-    max-width: 850px;
-    margin: 0 auto;
+header {
+    background-color: #f1f1f1;
     padding: 20px;
     text-align: center;
 }
 
-#griglia {
+nav.right-nav{
+    position: relative;
+    top: -185px;
+    background-color: #f1f1f1;
+    width: 200px;
+    box-sizing: border-box;
+    float: right;
+}
+
+.card {
+    background-color: #fff;
+    padding: 10px;
+    margin-bottom: 10px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    border-radius: 5px;
+}
+
+nav ul {
+    list-style: none;
     padding: 0;
     margin: 0;
 }
-#griglia , img {
-    margin-bottom: 5px;
-}
-#griglia li {
-    display: inline-block;
-    width: 160px;
-    vertical-align: middle;
+
+nav ul li a {
+    color: #333;
+    text-decoration: none;
+    display: block;
 }
 
-#griglia li p {
-    margin: 0;
-    font-size: 12px;
+nav ul li a:hover {
+    background-color: #333;
     color: #fff;
 }
-img{
-    cursor: pointer;
-}
-footer {
-    background-color: #333 !important;
+
+nav.left-nav {
+    background-color: #f1f1f1;
+    width: 200px;
+    padding: 20px;
+    box-sizing: border-box;
+    margin-top: 20px;
+    margin-left: 20px;
+    float: left;
+    height: 300px;
+    overflow-y: scroll;
 }
 
-footer , span {
-    color: white;
+footer {
+    position: fixed;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    background-color: #333 !important;
+    padding: 20px;
+    margin: 8px;
 }

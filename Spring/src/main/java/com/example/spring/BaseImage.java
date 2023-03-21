@@ -1,6 +1,7 @@
 package com.example.spring;
 
 import org.bson.types.Binary;
+import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -8,7 +9,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class BaseImage {
 
     @Id
-    public String id;
+    public ObjectId id;
     public Binary img;
     public String camera_name;
     public String rover;

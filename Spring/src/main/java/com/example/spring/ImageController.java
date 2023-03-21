@@ -2,6 +2,7 @@ package com.example.spring;
 
 import jakarta.servlet.http.HttpServletRequest;
 import org.bson.types.Binary;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -39,6 +40,7 @@ public class ImageController {
         model.addAttribute("image",
                  Base64.getEncoder().encodeToString(baseImagePrincipal.img.getData()));
         model.addAttribute("baseImageId", baseImagePrincipal.id);
+        System.out.println("I'id è il seguente: "+baseImagePrincipal.id);
         List<String> decodedImages = new ArrayList<>();
         List<BaseImage> latestImages = Imageservice.getLatest12Images();
         for (BaseImage image : latestImages){
@@ -53,8 +55,8 @@ public class ImageController {
     public ModelAndView fast(@RequestParam("baseImageId") String baseImageId, Model model) {
         ModelAndView modelAndView = new ModelAndView();
         // get latest image and latest 12 images
-        Optional<FastImage> fastImage = fastservice.getFastImage(baseImageId);
-        Optional<BaseImage> baseImagePrincipal = Imageservice.getBaseImageById(baseImageId);
+        Optional<FastImage> fastImage = fastservice.getFastImage(new ObjectId(baseImageId));
+        Optional<BaseImage> baseImagePrincipal = Imageservice.getBaseImageById(new ObjectId(baseImageId));
 
         model.addAttribute("fastImage",
                 Base64.getEncoder().encodeToString(fastImage.get().img.getData()));
@@ -67,8 +69,8 @@ public class ImageController {
     public ModelAndView segmentation(@RequestParam("baseImageIdSeg") String baseImageIdSeg, Model model) {
         ModelAndView modelAndView = new ModelAndView();
         // get latest image and latest 12 images
-        Optional<SegImage> segImage = segImageService.getSegImageByBaseId(baseImageIdSeg);
-        Optional<BaseImage> baseImagePrincipal = Imageservice.getBaseImageById(baseImageIdSeg);
+        Optional<SegImage> segImage = segImageService.getSegImageByBaseId(new ObjectId(baseImageIdSeg));
+        Optional<BaseImage> baseImagePrincipal = Imageservice.getBaseImageById(new ObjectId(baseImageIdSeg));
 
         model.addAttribute("imageOriginale",
                 Base64.getEncoder().encodeToString(segImage.get().imgOriginale.getData()));
@@ -98,8 +100,8 @@ public class ImageController {
     public ModelAndView slic(@RequestParam("baseImageIdSlic") String baseImageIdSlic, Model model) {
         ModelAndView modelAndView = new ModelAndView();
         // get latest image and latest 12 images
-        Optional<Slic> slicImage = slicImageService.getSlicImageByBaseId(baseImageIdSlic);
-        Optional<BaseImage> baseImagePrincipal = Imageservice.getBaseImageById(baseImageIdSlic);
+        Optional<Slic> slicImage = slicImageService.getSlicImageByBaseId(new ObjectId(baseImageIdSlic));
+        Optional<BaseImage> baseImagePrincipal = Imageservice.getBaseImageById(new ObjectId(baseImageIdSlic));
 
         model.addAttribute("felzenszwalbImg",
                 Base64.getEncoder().encodeToString(slicImage.get().felzenszwalbImg.getData()));
