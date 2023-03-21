@@ -59,7 +59,7 @@ class Slic:
 
 
             res_json = {
-                'baseImageId':Names[i],
+                'baseImageId':ObjectId(Names[i]),
                 'felzenszwalbSegment':len(np.unique(segments_fz)),
                 'slicSegment': len(np.unique(segments_slic)),
                 'quickshiftSegment': len(np.unique(segments_quick)),

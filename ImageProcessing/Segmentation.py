@@ -92,7 +92,7 @@ class Segmentation:
 
             i=1
             res_json = {
-                'baseImageId': Names[i],
+                'baseImageId': ObjectId(Names[i]),
                 'imgOriginale' : image_bytes_base.getvalue(),
                 'imgGrey' : image_bytes_gray.getvalue(),
                 'imgThresh' : image_bytes_thresh.getvalue(),
