@@ -23,6 +23,7 @@ class Slic:
         for entry in results:
             images.append(base64.b64decode(entry['img']['$binary']['base64']))
             Names.append(entry['_id']['$oid'])
+
         i=0
         for imgs in images:
             img = Image.open(io.BytesIO(imgs))
@@ -59,7 +60,7 @@ class Slic:
 
 
             res_json = {
-                'baseImageId':ObjectId(Names[i]),
+                'baseimageid':ObjectId(Names[i]),
                 'felzenszwalbSegment':len(np.unique(segments_fz)),
                 'slicSegment': len(np.unique(segments_slic)),
                 'quickshiftSegment': len(np.unique(segments_quick)),

@@ -22,6 +22,7 @@ class Segmentation:
             images.append(base64.b64decode(entry['img']['$binary']['base64']))
             Names.append(entry['_id']['$oid'])
 
+        i=0
         for image in images:
             img = Image.open(io.BytesIO(image))
             img = np.array(img)
@@ -90,9 +91,9 @@ class Segmentation:
             im.save(image_bytes_img_markers_img, format='png')
 
 
-            i=1
+          
             res_json = {
-                'baseImageId': ObjectId(Names[i]),
+                'baseimageid': ObjectId(Names[i]),
                 'imgOriginale' : image_bytes_base.getvalue(),
                 'imgGrey' : image_bytes_gray.getvalue(),
                 'imgThresh' : image_bytes_thresh.getvalue(),

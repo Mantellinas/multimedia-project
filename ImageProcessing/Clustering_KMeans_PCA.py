@@ -56,7 +56,7 @@ class Clustering_KMeans_PCA:
         kmeans.fit(x)
 
         for i in range(n_comp):
-            cluster = {'base_image_id':ObjectId(Names[i]['$oid']), 'cluster': int(kmeans.labels_[i])}
+            cluster = {'baseimageid':ObjectId(Names[i]['$oid']), 'cluster': int(kmeans.labels_[i])}
             print(cluster)
             self.mongo_connector.writeDocument(OUTPUTCOLLECTION,cluster)
 
