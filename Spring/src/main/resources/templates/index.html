@@ -3,6 +3,7 @@
 
 <head>
   <title>Multimedia</title>
+  <link rel="shortcut icon" type="image/x-icon" href="@{images/favicon.ico">
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <link th:href="@{/css/style.css}" rel="stylesheet">
@@ -13,8 +14,9 @@
 
 <body>
 <header>
-  <h1 class="title">Page Title</h1>
+  <h1 class="title">Mars Vision</h1>
   <p class="date">March 16, 2023</p>
+  <form action="/gallery" method="get"> <button class="toggle-button bi bi-border-all"></button></form>
 </header>
 
 <main>
@@ -25,11 +27,9 @@
 
 <nav class="right-nav">
   <ul>
-    <li class="card"><a href="#">
+    <li class="card">
       <img class="card-img" th:src="@{images/icons8-clustering-64.png}"></img>
       <h2 class="card-title">Clustering</h2>
-      <p class="card-text">Suddivisione di un oggetto in k gruppi sulla base
-        delle loro feature</p>
     </a></li>
     <li class="card"><form id="fast-form" action="/fast"  method="get">
       <div class="fast-form">
@@ -42,14 +42,14 @@
       <div class="form-slic">
         <input hidden type="text" name="baseImageIdSlic" id="baseImageIdSlic" th:value="*{baseImageId}" style="">
         <img src="image3.jpg" alt="Image 3">
-      <h2>Services</h2>
+      <h2>Slic</h2>
       </div>
     </form></li>
     <li class="card"><form id="segmentation-form" action="/segmentation"  method="get">
       <div class="seg-form">
       <input hidden type="text" name="baseImageIdSeg" id="baseImageIdSeg" th:value="*{baseImageId}" style="">
       <img th:src="@{images/icons8-segmentation-64.png}" alt="Image 4">
-      <h2>Contact</h2></div>
+      <h2>Segmentazione</h2></div>
     </form></li>
   </ul>
 </nav>
@@ -69,6 +69,7 @@
         <i class="bi bi-github" style="color: white;"></i>
       </a>
     </div>
+  </section>
 </footer>
 </body>
 <script>

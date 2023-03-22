@@ -13,10 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.management.Query;
-import java.util.ArrayList;
-import java.util.Base64;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @RestController
 public class ImageController {
@@ -33,20 +30,19 @@ public class ImageController {
 
     private SlicImageService slicImageService;
     @RequestMapping("/")
-    public ModelAndView welcome(Model model) {
+    public ModelAndView welcome(@RequestParam(required = false) String param, Model model) {
         ModelAndView modelAndView = new ModelAndView();
-        // get latest image and latest 12 images
-        BaseImage baseImagePrincipal = Imageservice.getLastImage();
-        model.addAttribute("image",
-                 Base64.getEncoder().encodeToString(baseImagePrincipal.img.getData()));
-        model.addAttribute("baseImageId", baseImagePrincipal.id);
-        System.out.println("I'id è il seguente: "+baseImagePrincipal.id);
-        List<String> decodedImages = new ArrayList<>();
-        List<BaseImage> latestImages = Imageservice.getLatest12Images();
-        for (BaseImage image : latestImages){
-            decodedImages.add(Base64.getEncoder().encodeToString(image.img.getData()));
+        if (param == null) {
+            BaseImage baseImagePrincipal = Imageservice.getLastImage();
+            model.addAttribute("image",
+                    Base64.getEncoder().encodeToString(baseImagePrincipal.img.getData()));
+            model.addAttribute("baseImageId", baseImagePrincipal.id);
+        } else {
+            Optional<BaseImage> baseImagePrincipal = Imageservice.getBaseImageById(new ObjectId(param));
+            model.addAttribute("image",
+                    Base64.getEncoder().encodeToString(baseImagePrincipal.get().img.getData()));
+            model.addAttribute("baseImageId", baseImagePrincipal.get().id);
         }
-        model.addAttribute("images" , decodedImages);
         modelAndView.setViewName("index.html");
         return modelAndView;
     }
@@ -119,5 +115,19 @@ public class ImageController {
         return modelAndView;
     }
 
+    @GetMapping("/gallery")
+    public ModelAndView gallery(Model model) {
+        ModelAndView modelAndView = new ModelAndView();
+        // get latest image and latest 12 image
+        List<GalleryImage> decodedImages = new ArrayList<>();
+        List<BaseImage> latestImages = Imageservice.getLatest12Images();
+        List<String> latestIds = new ArrayList<>();
+        for (BaseImage image : latestImages){
+            decodedImages.add(new GalleryImage(Base64.getEncoder().encodeToString(image.img.getData()), image.id.toString()));
+        }
+        model.addAttribute("images" , decodedImages);
+        modelAndView.setViewName("gallery.html");
+        return modelAndView;
+    }
 
 }

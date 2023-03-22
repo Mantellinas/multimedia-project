@@ -9,7 +9,7 @@ import java.util.Optional;
 
 @Repository
 public interface SegImageRepository extends MongoRepository<SegImage, String> {
-    public Optional<SegImage> findFirstSegImageByBaseImageId(ObjectId id);
-
+    public Optional<SegImage> findFirstByBaseimageid(ObjectId id);
+//findFirstSegImageByBaseImageId
     public Optional<SegImage> findFirstById(ObjectId id);
 }

@@ -10,7 +10,7 @@ public class Slic {
     @Id
     public ObjectId id;
 
-    public ObjectId baseImageId;
+    public ObjectId baseimageid;
     public int felzenszwalbSegment;
     public int slicSegment;
     public int quickshiftSegment;

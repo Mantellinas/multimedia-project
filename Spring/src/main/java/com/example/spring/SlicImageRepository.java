@@ -9,6 +9,6 @@ import java.util.Optional;
 @Repository
 public interface SlicImageRepository extends MongoRepository<Slic, String> {
 
-    public Optional<Slic> findSlicByBaseImageId(ObjectId id);
+    public Optional<Slic> findFirstByBaseimageid(ObjectId id);
 
 }

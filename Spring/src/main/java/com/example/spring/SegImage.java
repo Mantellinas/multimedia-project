@@ -10,7 +10,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class SegImage {
     @Id
     public ObjectId id;
-    public ObjectId baseImageId;
+    public ObjectId baseimageid;
     public Binary imgOriginale;
     public Binary imgGrey;
     public Binary imgThresh;

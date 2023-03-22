@@ -11,7 +11,7 @@ public class SegImageService {
     @Autowired
     SegImageRepository segRepo;
     public Optional<SegImage> getSegImageByBaseId(ObjectId id){
-        return segRepo.findFirstSegImageByBaseImageId(id);
+        return segRepo.findFirstByBaseimageid(id);
     }
     public Optional<SegImage> getSegImageById(ObjectId id){
         return segRepo.findFirstById(id);

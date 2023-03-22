@@ -12,6 +12,6 @@ public class SlicImageService {
     SlicImageRepository slicRepo;
 
     public Optional<Slic> getSlicImageByBaseId(ObjectId id){
-        return slicRepo.findSlicByBaseImageId(id);
+        return slicRepo.findFirstByBaseimageid(id);
     }
 }
