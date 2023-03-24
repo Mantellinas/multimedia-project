@@ -47,7 +47,7 @@ class Hog:
             image_hog= io.BytesIO()
 
             im.convert('RGB').save(image_hog, format='png') 
-            feat_ims.append({'baseimageid': Names[i],
+            feat_ims.append({'baseimageid': ObjectId(Names[i]),
                             'featimg': image_hog.getvalue(),
                             'imageid' : i
                             })
