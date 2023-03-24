@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+
+<head>
+  <title>Multimedia</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <link th:href="@{/css/style.css}" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css" integrity="sha512-MpQiHStlt/9GCO+ifDyqL+gHt2EJ+I1Rt7ZMvMllpJ7M8X5Pcblnue5BvNyquV7C8KjITDNQ7fZbnnJ5V7P8A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Trirong">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+</head>
+<style>
+  .container {
+    margin-top: 100px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .image-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 20px;
+    width: 60%;
+    position: relative;
+    cursor: pointer;
+  }
+
+  .image-container img {
+    max-width: 100%;
+    margin-bottom: 20px;
+  }
+
+  .image-container .caption {
+    font-size: 18px;
+    font-weight: bold;
+    position: absolute;
+    bottom: -30px;
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+    background-color: #333;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0,0,0,0.5);
+    text-align: center;
+    z-index: 1;
+    width: 80%;
+  }
+
+  .image-container:hover .caption {
+    opacity: 1;
+  }
+</style>
+<body>
+<header>
+  <h1 class="title">Page Title</h1>
+  <p class="date">March 16, 2023</p>
+  <button class="toggle-button bi bi-x" onclick="toggleNavbar()"></button>
+</header>
+<div class="navbar" id="navbar">
+  <h2>Slic</h2>
+  <p>SLIC (Simple Linear Iterative Clustering) è un algoritmo di segmentazione delle immagini che raggruppa i pixel simili in cluster, basandosi sulla loro vicinanza spaziale e colore. L'algoritmo utilizza una tecnica di clustering iterativo e lineare per ridurre la complessità computazionale e garantire una segmentazione precisa e rapida delle immagini. SLIC è ampiamente utilizzato in applicazioni di elaborazione delle immagini, come il riconoscimento di oggetti, la segmentazione semantica e l'estrazione delle caratteristiche.</p>
+</div>
+<div class="container">
+  <div class="image-container">
+    <img th:src="*{'data:image/png;base64,'+felzenszwalbImg}" alt="felzenszwalbImg">
+    <div class="caption">Immagine felzenszwalb</div>
+  </div>
+  <div class="image-container">
+    <img th:src="*{'data:image/png;base64,'+SLICImg}" alt="SLICImg">
+    <div class="caption">Immagine SLIC</div>
+  </div>
+  <div class="image-container">
+    <img th:src="*{'data:image/png;base64,'+quickshiftImg}" alt="quickshiftImg">
+    <div class="caption">Immagine quickshift</div>
+  </div>
+  <div class="image-container last-container">
+    <img th:src="*{'data:image/png;base64,'+watershedImg}" alt="watershedImg">
+    <div class="caption">Immagine watershed</div>
+  </div>
+</div>
+<p th:text="${felzenszwalbSegment}"></p>
+<p th:text="${quickshiftSegment}"></p>
+<p th:text="${slicSegment}"></p>
+<p th:text="${watershedSegment}"></p>
+<footer class="text-center text-lg-start text-muted">
+  <section class="d-flex justify-content-center justify-content-lg-between p-4 border-bottom">
+    <div class="me-5 d-none d-lg-block">
+      <span>Get connected with us on social networks:</span>
+    </div>
+    <div>
+      <a href="" class="me-4">
+        <i class="bi bi-facebook" style="color: white;"></i>
+      </a>
+      <a href="" class="me-4">
+        <i class="bi bi-linkedin" style="color: white;"></i>
+      </a>
+      <a href="" class="me-4">
+        <i class="bi bi-github" style="color: white;"></i>
+      </a>
+    </div>
+  </section>
+</footer>
+</body>
+<script>
+  function toggleNavbar() {
+    var navbar = document.getElementById("navbar");
+    if (navbar.classList.contains("hide")) {
+      navbar.classList.remove("hide"); // faccio comparire
+      $(".toggle-button").addClass('bi bi-x');
+      $(".toggle-button").removeClass('bi bi-body-text');
+    } else {
+      navbar.classList.add("hide"); // faccio scomparire
+      $(".toggle-button").addClass('bi bi-body-text');
+      $(".toggle-button").removeClass('bi bi-x');
+    }
+  }
+  $(document).ready(function () {
+
+    var today = new Date();
+    var dd = String(today.getDate()).padStart(2, '0');
+    var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+    var yyyy = today.getFullYear();
+
+    today = dd + '/' + mm + '/' + yyyy;
+    $('.date').text(today);
+  });
+</script>
+
+</html>

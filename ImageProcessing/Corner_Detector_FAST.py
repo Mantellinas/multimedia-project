@@ -38,7 +38,7 @@ class Corner_Detector_FAST:
 
             image_mod = {
                 'img': image_bytes.getvalue(),
-                'baseimageid':Names[i]['$oid']
+                'baseimageid':ObjectId(Names[i]['$oid'])
             }
 
             self.mongo_connector.writeDocument(OUTPUTCOLLECTION,image_mod)

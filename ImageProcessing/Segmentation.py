@@ -22,6 +22,7 @@ class Segmentation:
             images.append(base64.b64decode(entry['img']['$binary']['base64']))
             Names.append(entry['_id']['$oid'])
 
+        i=0
         for image in images:
             img = Image.open(io.BytesIO(image))
             img = np.array(img)
@@ -90,18 +91,18 @@ class Segmentation:
             im.save(image_bytes_img_markers_img, format='png')
 
 
-            i=1
+          
             res_json = {
-                'baseimageid': Names[i],
-                'imgoriginale' : image_bytes_base.getvalue(),
-                'imggrey' : image_bytes_gray.getvalue(),
-                'imgthresh' : image_bytes_thresh.getvalue(),
-                'imgopening' : image_bytes_opening.getvalue(),
-                'imgsure_bg' : image_bytes_sure_bg.getvalue(),
-                'imgsure_fg': image_bytes_sure_fg.getvalue(),
-                'imgmarkers' : image_bytes_img_markers.getvalue(),
-                'imgmarkers_watershed' : image_bytes_img_markers_ws.getvalue(),
-                'imgmarkers_img_border' : image_bytes_img_markers_img.getvalue()
+                'baseimageid': ObjectId(Names[i]),
+                'imgOriginale' : image_bytes_base.getvalue(),
+                'imgGrey' : image_bytes_gray.getvalue(),
+                'imgThresh' : image_bytes_thresh.getvalue(),
+                'imgOpening' : image_bytes_opening.getvalue(),
+                'imgSureBg' : image_bytes_sure_bg.getvalue(),
+                'imgSureFg': image_bytes_sure_fg.getvalue(),
+                'imgMarkers' : image_bytes_img_markers.getvalue(),
+                'imgMarkersWatershed' : image_bytes_img_markers_ws.getvalue(),
+                'imgMarkersImgBorder' : image_bytes_img_markers_img.getvalue()
             }
             i+=1
             self.mongo_connector.writeDocument(OUTPUTCOLLECTION,res_json)

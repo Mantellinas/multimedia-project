@@ -23,6 +23,7 @@ class Slic:
         for entry in results:
             images.append(base64.b64decode(entry['img']['$binary']['base64']))
             Names.append(entry['_id']['$oid'])
+
         i=0
         for imgs in images:
             img = Image.open(io.BytesIO(imgs))
@@ -59,15 +60,15 @@ class Slic:
 
 
             res_json = {
-                'baseimageid':Names[i],
-                'felzenszwalbsegment':len(np.unique(segments_fz)),
-                'slicsegment': len(np.unique(segments_slic)),
-                'quickshiftsegment': len(np.unique(segments_quick)),
-                'watershedsegment' : len(np.unique(segments_watershed)),
-                'felzenszwalbimg': image_bytes_fz.getvalue(),
-                'SLICimg' : image_bytes_slic.getvalue(),
-                'quickshiftimg' : image_bytes_quick.getvalue(),
-                'watershedimg' : image_bytes_watershed.getvalue()
+                'baseimageid':ObjectId(Names[i]),
+                'felzenszwalbSegment':len(np.unique(segments_fz)),
+                'slicSegment': len(np.unique(segments_slic)),
+                'quickshiftSegment': len(np.unique(segments_quick)),
+                'watershedSegment' : len(np.unique(segments_watershed)),
+                'felzenszwalbImg': image_bytes_fz.getvalue(),
+                'SLICImg' : image_bytes_slic.getvalue(),
+                'quickshiftImg' : image_bytes_quick.getvalue(),
+                'watershedImg' : image_bytes_watershed.getvalue()
             }
             self.mongo_connector.writeDocument(OUTPUTCOLLECTION,res_json)
             i+=1
