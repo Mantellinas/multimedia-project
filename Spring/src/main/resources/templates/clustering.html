@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Multimedia</title>
+</head>
+<body>
+<img th:src="*{'data:image/png;base64,'+imagebase}" alt="Image 2">
+<img th:src="*{'data:image/png;base64,'+imageHog}" alt="Image 2">
+<img th:src="*{'data:image/png;base64,'+dendrogram}" alt="Image 2">
+<p th:text="${cluster}"></p>
+</body>
+</html>

@@ -72,4 +72,4 @@ class Slic:
             }
             self.mongo_connector.writeDocument(OUTPUTCOLLECTION,res_json)
             i+=1
-
+        print("Slic completed")

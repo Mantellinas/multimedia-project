@@ -9,36 +9,14 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Trirong">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
   <style>
-    .image-grid {
-      margin-top: 20px;
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      grid-gap: 10px;
-    }
-    .image-grid img {
-      max-width: 100%;
-      height: auto;
-    }
-    .image-grid-item{
-      display: flex;
-      justify-content: center;
-    }
   </style>
 </head>
 <body>
 <header>
   <h1 class="title"><a href="index.html">Mars Vision</a></h1>
   <p class="date">March 16, 2023</p>
-  <form action="/gallery" method="get"> <button class="toggle-button bi bi-border-all"></button></form>
 </header>
-<div class="image-grid">
-  <div class="image-grid-item" th:each="image : ${images}">
-    <form action="/" method="get">
-    <img th:src="*{'data:image/png;base64,'+image.img}" />
-    <input hidden type="text" name="param" id="param" th:value="${image.id}" style="">
-    </form>
-  </div>
-</div>
+La computazione non è ancora pronta per questa immagine
 <footer class="text-center text-lg-start text-muted">
   <section class="d-flex justify-content-center justify-content-lg-between p-4 border-bottom">
     <div class="me-5 d-none d-lg-block">
@@ -59,10 +37,15 @@
 </footer>
 </body>
 <script>
-  $( ".image-grid-item" ).click(function() {
-    const form = $(this).find('form');
-    form.submit();
+  $(document).ready(function () {
+
+    var today = new Date();
+    var dd = String(today.getDate()).padStart(2, '0');
+    var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+    var yyyy = today.getFullYear();
+
+    today = dd + '/' + mm + '/' + yyyy;
+    $('.date').text(today);
   });
 </script>
 </html>
-

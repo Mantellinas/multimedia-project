@@ -6,6 +6,7 @@ from MongoConnector import *
 from PIL import Image
 from skimage.feature import hog
 from scipy.spatial import distance
+from skimage import color
 from scipy.cluster.hierarchy import dendrogram, linkage
 
 COLLECTION = os.getenv('BASE_IMAGE')
@@ -28,8 +29,8 @@ class Hog:
 
         for image in images:
             im = Image.open(io.BytesIO(image))
+            im = color.rgb2gray(im)
             final_img.append(np.array(im))
-            
 
         # creating a list to store HOG feature vectors
         fd_list = []
@@ -39,7 +40,7 @@ class Hog:
 
         for i in range(n):
             fd, hog_image = hog(final_img[i], orientations=9, pixels_per_cell=(
-                64, 64), cells_per_block=(2, 2), visualize=True, channel_axis=-1)
+                8, 8), cells_per_block=(2, 2), visualize=True, feature_vector=True, channel_axis=None)   
 
             fd_list.append(fd)          
 
@@ -52,8 +53,7 @@ class Hog:
                             'imageid' : i
                             })
 
-
-        distance_matrix = np.zeros((n, n))
+        distance_matrix = np.zeros((n, n))  
 
         for i in range(n):
             fd_i = fd_list[i]
@@ -66,7 +66,6 @@ class Hog:
         cond_distance_matrix = distance.squareform(distance_matrix)
 
         Z = linkage(cond_distance_matrix, method='ward')    
-        print(Z)
         base64_dendrogram = io.BytesIO()
 
         plt.figure(figsize=(12, 6))
@@ -82,4 +81,3 @@ class Hog:
         }
 
         self.mongo_connector.writeDocument(OUTPUTCOLLECTION, document)
-

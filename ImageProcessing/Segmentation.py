@@ -106,4 +106,4 @@ class Segmentation:
             }
             i+=1
             self.mongo_connector.writeDocument(OUTPUTCOLLECTION,res_json)
-
+        print("Segmentation completed")

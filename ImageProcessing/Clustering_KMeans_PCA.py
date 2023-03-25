@@ -57,6 +57,5 @@ class Clustering_KMeans_PCA:
 
         for i in range(n_comp):
             cluster = {'baseimageid':ObjectId(Names[i]['$oid']), 'cluster': int(kmeans.labels_[i])}
-            print(cluster)
             self.mongo_connector.writeDocument(OUTPUTCOLLECTION,cluster)
-
+        print("Kmeans completed")

@@ -43,3 +43,4 @@ class Corner_Detector_FAST:
 
             self.mongo_connector.writeDocument(OUTPUTCOLLECTION,image_mod)
             i+=1
+        print("FAST completed")

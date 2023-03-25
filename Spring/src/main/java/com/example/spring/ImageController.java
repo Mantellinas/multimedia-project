@@ -29,21 +29,39 @@ public class ImageController {
     @Autowired
 
     private SlicImageService slicImageService;
+
+    @Autowired
+
+    private KMeansService kMeansService;
+
+
+    @Autowired
+
+    private HogService hogService;
     @RequestMapping("/")
     public ModelAndView welcome(@RequestParam(required = false) String param, Model model) {
         ModelAndView modelAndView = new ModelAndView();
         if (param == null) {
             BaseImage baseImagePrincipal = Imageservice.getLastImage();
+            if(baseImagePrincipal == null ){
+                modelAndView.setViewName("error.html");
+                return modelAndView;
+            }
             model.addAttribute("image",
                     Base64.getEncoder().encodeToString(baseImagePrincipal.img.getData()));
             model.addAttribute("baseImageId", baseImagePrincipal.id);
+            modelAndView.setViewName("index.html");
         } else {
             Optional<BaseImage> baseImagePrincipal = Imageservice.getBaseImageById(new ObjectId(param));
+            if(baseImagePrincipal.isPresent() == false){
+                modelAndView.setViewName("error.html");
+                return modelAndView;
+            }
             model.addAttribute("image",
                     Base64.getEncoder().encodeToString(baseImagePrincipal.get().img.getData()));
             model.addAttribute("baseImageId", baseImagePrincipal.get().id);
+            modelAndView.setViewName("index.html");
         }
-        modelAndView.setViewName("index.html");
         return modelAndView;
     }
 
@@ -52,8 +70,15 @@ public class ImageController {
         ModelAndView modelAndView = new ModelAndView();
         // get latest image and latest 12 images
         Optional<FastImage> fastImage = fastservice.getFastImage(new ObjectId(baseImageId));
+        if(fastImage.isPresent() == false){
+            modelAndView.setViewName("error.html");
+            return modelAndView;
+        }
         Optional<BaseImage> baseImagePrincipal = Imageservice.getBaseImageById(new ObjectId(baseImageId));
-
+        if(baseImagePrincipal.isPresent() == false){
+            modelAndView.setViewName("error.html");
+            return modelAndView;
+        }
         model.addAttribute("fastImage",
                 Base64.getEncoder().encodeToString(fastImage.get().img.getData()));
         model.addAttribute("baseImage",
@@ -66,8 +91,15 @@ public class ImageController {
         ModelAndView modelAndView = new ModelAndView();
         // get latest image and latest 12 images
         Optional<SegImage> segImage = segImageService.getSegImageByBaseId(new ObjectId(baseImageIdSeg));
+        if(!segImage.isPresent()){
+            modelAndView.setViewName("error.html");
+            return modelAndView;
+        }
         Optional<BaseImage> baseImagePrincipal = Imageservice.getBaseImageById(new ObjectId(baseImageIdSeg));
-
+        if(baseImagePrincipal.isPresent() == false){
+            modelAndView.setViewName("error.html");
+            return modelAndView;
+        }
         model.addAttribute("imageOriginale",
                 Base64.getEncoder().encodeToString(segImage.get().imgOriginale.getData()));
         model.addAttribute("imgGrey",
@@ -97,8 +129,15 @@ public class ImageController {
         ModelAndView modelAndView = new ModelAndView();
         // get latest image and latest 12 images
         Optional<Slic> slicImage = slicImageService.getSlicImageByBaseId(new ObjectId(baseImageIdSlic));
+        if(!slicImage.isPresent()){
+            modelAndView.setViewName("error.html");
+            return modelAndView;
+        }
         Optional<BaseImage> baseImagePrincipal = Imageservice.getBaseImageById(new ObjectId(baseImageIdSlic));
-
+        if(baseImagePrincipal.isPresent() == false){
+            modelAndView.setViewName("error.html");
+            return modelAndView;
+        }
         model.addAttribute("felzenszwalbImg",
                 Base64.getEncoder().encodeToString(slicImage.get().felzenszwalbImg.getData()));
         model.addAttribute("SLICImg",
@@ -112,6 +151,46 @@ public class ImageController {
         model.addAttribute("slicSegment", slicImage.get().slicSegment);
         model.addAttribute("watershedSegment", slicImage.get().watershedSegment);
         modelAndView.setViewName("slic.html");
+        return modelAndView;
+    }
+
+    @GetMapping("/clustering")
+    public ModelAndView clustering(@RequestParam("baseImageIdClustering") String baseImageIdClustering, Model model) {
+        ModelAndView modelAndView = new ModelAndView();
+        // get latest image and latest 12 images
+        Optional<BaseImage> baseImagePrincipal = Imageservice.getBaseImageById(new ObjectId(baseImageIdClustering));
+        if(baseImagePrincipal.isPresent() == false){
+            modelAndView.setViewName("error.html");
+            return modelAndView;
+        }
+        Optional<KMeansImage> kMeansImage = kMeansService.getCluster(new ObjectId(baseImageIdClustering));
+        if(kMeansImage.isPresent() == false){
+            modelAndView.setViewName("error.html");
+            return modelAndView;
+        }
+        model.addAttribute("imagebase",
+                Base64.getEncoder().encodeToString(baseImagePrincipal.get().img.getData()));
+        ClusteringHog clusteringHog = hogService.getLastHog();
+        if(clusteringHog == null){
+            modelAndView.setViewName("error.html");
+            return modelAndView;
+        }
+        ArrayList<HogImage> hogImages = clusteringHog.feat_imgs;
+        if(hogImages == null){
+            modelAndView.setViewName("error.html");
+            return modelAndView;
+        }
+        for(HogImage hogImage: hogImages){
+            if(hogImage.baseimageid.toString() == baseImageIdClustering){
+                //ho trovato l'immagine con le stelline e posso stamparla
+                model.addAttribute("imageHog",
+                        Base64.getEncoder().encodeToString(hogImage.featimg.getData()));
+                break;
+            }
+        }
+        model.addAttribute("dendrogram",clusteringHog.dendrogram.getData());
+        model.addAttribute("cluster", kMeansImage.get().cluster);
+        modelAndView.setViewName("clustering.html");
         return modelAndView;
     }
 

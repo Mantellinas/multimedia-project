@@ -22,7 +22,7 @@ header {
     display: block;
     margin: 0 auto;
     margin-top: 100px;
-    width: 50%;
+    width: 300px;
 }
 /* Style for the title */
 .title {
@@ -30,7 +30,11 @@ header {
     font-size: 2rem;
     margin: 0;
 }
+a{
+    text-decoration: none;
+    color: inherit;
 
+}
 /* Style for the date */
 .date {
     text-align: right;
@@ -52,8 +56,14 @@ nav.right-nav{
     box-sizing: border-box;
     float: right;
 }
-
+.card h2 {
+    margin: 0px;
+    text-align: center;
+}
 .card {
+    display: flex;
+    text-align: center;
+    justify-content: center;
     background-color: #fff;
     padding: 10px;
     margin-bottom: 10px;
@@ -80,16 +90,6 @@ nav.left-nav {
     height: 300px;
     overflow-y: scroll;
 }
-
-footer {
-    position: fixed;
-    bottom: 0px;
-    left: 0px;
-    right: 0px;
-    background-color: #333 !important;
-    padding: 20px;
-    margin: 8px;
-}
 .navbar {
     position: absolute;
     right: 0;
@@ -109,6 +109,37 @@ footer {
     box-sizing: border-box;
     transform: translateX(0%);
     transition: transform 0.3s ease-in-out;
+}
+footer {
+    position: fixed;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    background-color: #333 !important;
+    padding: 20px;
+    margin: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #f2f2f2;
+}
+
+.footer-left img {
+    height: 80px;
+}
+
+.footer-center p {
+    font-size: 16px;
+}
+
+.footer-right {
+    color: white;
+    display: flex;
+}
+
+.footer-right i {
+    font-size: 24px;
+    margin-right: 10px;
 }
 
 .navbar.hide {

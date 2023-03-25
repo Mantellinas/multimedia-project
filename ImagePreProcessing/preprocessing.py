@@ -15,7 +15,6 @@ RABBIT_QUEUE_NAME = os.getenv('RABBITQUEUENAME')
 
 def preprocessing(imageJson, mongo_connector):
     Photos_JS = json.loads(imageJson)
-    print(Photos_JS)
     dim = len(Photos_JS['latest_photos'])
     
     Marts_photos = []
@@ -35,9 +34,7 @@ def preprocessing(imageJson, mongo_connector):
         
         img = np.array(PIL.Image.open(urllib.request.urlopen(Marts_photos[i])))
         if len(img.shape) == 2:
-            print(img.shape)
-            img = cv2.cvtColor(img, cv2.COLOR_GRAY2RGB) 
-            print(img.shape)
+            img = cv2.cvtColor(img, cv2.COLOR_GRAY2RGB)
             
             
 
@@ -50,8 +47,7 @@ def preprocessing(imageJson, mongo_connector):
             'rover' : Photos_JS['latest_photos'][i]['rover']['name']
         }
         
-        mongo_connector.writeDocument("base_image",image)  
-        print("writed image in DB")
+        mongo_connector.writeDocument("base_image",image)
         
 def rabbit_reader(mongo_connector):
     credentials = pika.PlainCredentials(RABBIT_USR, RABBIT_PSW)
