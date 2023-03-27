@@ -49,7 +49,10 @@ def preprocessing(imageJson, mongo_connector):
         
         mongo_connector.writeDocument("base_image",image)
     print("finished preprocessing")
-        
+
+    r = requests.get('http://imageprocessing:8100/processing')
+    print(r.status_code)
+
 def rabbit_reader(mongo_connector):
     credentials = pika.PlainCredentials(RABBIT_USR, RABBIT_PSW)
     parameters = pika.ConnectionParameters('rabbitmq',
