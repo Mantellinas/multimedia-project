@@ -71,3 +71,4 @@ if __name__ == "__main__":
     print("Started pre-processing")
     mongo_connector = MongoConnector()
     rabbit_reader(mongo_connector)
+    print("finished preprocessing")
