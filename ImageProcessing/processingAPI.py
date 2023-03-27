@@ -35,6 +35,7 @@ def processing():
     slic.computate()
     # hog.computate()
 
+
 if __name__ == "__main__":
     ProcessingAPI.run(
             host='0.0.0.0',
