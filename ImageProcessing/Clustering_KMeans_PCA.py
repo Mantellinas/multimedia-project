@@ -26,6 +26,7 @@ class Clustering_KMeans_PCA:
         return features
 
     def computate(self):
+        print("Kmeans started")
         Names = []  
         model = VGG16()
         model = Model(inputs = model.inputs, outputs = model.layers[-2].output)

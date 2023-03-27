@@ -16,6 +16,7 @@ class Slic:
         self.mongo_connector = MongoConnector()
 
     def computate(self):
+        print("Slic started")
         results = self.mongo_connector.getAllDocument(COLLECTION)
 
         Names = []
@@ -26,6 +27,7 @@ class Slic:
 
         i=0
         for imgs in images:
+            print("slic: "+str(i)+" of "+str(len(images)))
             img = Image.open(io.BytesIO(imgs))
             img = np.array(img)
         

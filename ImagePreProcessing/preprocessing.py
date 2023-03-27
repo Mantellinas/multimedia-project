@@ -8,18 +8,18 @@ import json
 import os 
 from MongoConnector import *
 import io
+import requests
 
 RABBIT_USR = os.getenv('RABBITMQUSER') 
 RABBIT_PSW = os.getenv('RABBITMQPASSWORD')
 RABBIT_QUEUE_NAME = os.getenv('RABBITQUEUENAME')
 
 def preprocessing(imageJson, mongo_connector):
+    print("Started pre-processing")
     Photos_JS = json.loads(imageJson)
     dim = len(Photos_JS['latest_photos'])
-    
     Marts_photos = []
     Names = []
-    
     for i in range(dim):
         Marts_photos.append(Photos_JS['latest_photos'][i]['img_src'])
 
@@ -48,6 +48,7 @@ def preprocessing(imageJson, mongo_connector):
         }
         
         mongo_connector.writeDocument("base_image",image)
+    print("finished preprocessing")
         
 def rabbit_reader(mongo_connector):
     credentials = pika.PlainCredentials(RABBIT_USR, RABBIT_PSW)
@@ -68,7 +69,5 @@ def rabbit_reader(mongo_connector):
 
 
 if __name__ == "__main__":
-    print("Started pre-processing")
     mongo_connector = MongoConnector()
     rabbit_reader(mongo_connector)
-    print("finished preprocessing")

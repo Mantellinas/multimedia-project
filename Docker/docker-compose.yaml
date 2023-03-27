@@ -155,6 +155,8 @@ services:
         - FAST=FAST
         - SLIC=SLIC
         - SEGMENTATION=Segmentation
+    ports:
+      - "8100:8100"
     depends_on:
       - mongo_db
       - imagepreprocessing

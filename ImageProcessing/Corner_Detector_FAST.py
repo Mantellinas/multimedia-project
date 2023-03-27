@@ -13,6 +13,7 @@ class Corner_Detector_FAST:
         self.mongo_connector = MongoConnector()
 
     def computate(self):
+        print("FAST started")
         results = self.mongo_connector.getAllDocument(COLLECTION)
 
         Names = []

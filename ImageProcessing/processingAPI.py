@@ -18,14 +18,22 @@ segmentation = Segmentation()
 hog = Hog()
 
 
-sched = BackgroundScheduler(daemon=True)
-sched.add_job(clustering_K_means.computate,'interval',minutes=1) #hours
-sched.add_job(cd_FAST.computate,'interval',minutes=1)
-sched.add_job(slic.computate,'interval',minutes=1)
-sched.add_job(segmentation.computate,'interval',minutes=1)
-sched.add_job(hog.computate,'interval',minutes=1)
+#sched = BackgroundScheduler(daemon=True)
+#sched.add_job(clustering_K_means.computate,'interval',minutes=1) #hours
+#sched.add_job(cd_FAST.computate,'interval',minutes=1)
+#sched.add_job(slic.computate,'interval',minutes=1)
+#sched.add_job(segmentation.computate,'interval',minutes=1)
+#sched.add_job(hog.computate,'interval',minutes=1)
 
-sched.start()
+#sched.start()
+
+@ProcessingAPI.route('/processing', methods=['GET'])
+def processing():
+    clustering_K_means.computate()
+    cd_FAST.computate()
+    segmentation.computate()
+    slic.computate()
+    # hog.computate()
 
 if __name__ == "__main__":
     ProcessingAPI.run(

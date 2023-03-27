@@ -14,6 +14,7 @@ class Segmentation:
         self.mongo_connector = MongoConnector()
 
     def computate(self):
+        print("segmentation started")
         results = self.mongo_connector.getAllDocument(COLLECTION)
 
         Names = []
