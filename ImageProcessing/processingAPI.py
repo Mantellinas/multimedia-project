@@ -1,11 +1,12 @@
 from apscheduler.schedulers.background import BackgroundScheduler
-from flask import Flask
+from flask import Flask, make_response
 from Clustering_KMeans_PCA import * 
 from Corner_Detector_FAST import *
 from Segmentation import *
 from Hog import *
 from Slic import *
 import os
+import threading
 
 INTERVAL = os.getenv('INTERVAL')
 
@@ -17,23 +18,29 @@ slic = Slic()
 segmentation = Segmentation()
 hog = Hog()
 
-
-#sched = BackgroundScheduler(daemon=True)
-#sched.add_job(clustering_K_means.computate,'interval',minutes=1) #hours
-#sched.add_job(cd_FAST.computate,'interval',minutes=1)
-#sched.add_job(slic.computate,'interval',minutes=1)
-#sched.add_job(segmentation.computate,'interval',minutes=1)
-#sched.add_job(hog.computate,'interval',minutes=1)
-
-#sched.start()
-
 @ProcessingAPI.route('/processing', methods=['GET'])
 def processing():
-    clustering_K_means.computate()
-    cd_FAST.computate()
-    segmentation.computate()
-    slic.computate()
+    #cd_FAST.computate()
+    # clustering_K_means.computate()
+    # segmentation.computate()
+    # slic.computate()
     # hog.computate()
+
+    fast_thread = threading.Thread(target=cd_FAST.computate(), name='fast_thread')
+    Kmeans_thread = threading.Thread(target=clustering_K_means.computate(), name='Kmeans_thread')
+    segmentation_thread = threading.Thread(target=segmentation.computate(), name='segmentation_thread')
+    slic_thread = threading.Thread(target=slic.computate(), name='slic_thread')
+    hog_thread = threading.Thread(target=hog.computate(), name='hog_thread')
+   
+    fast_thread.start()
+    Kmeans_thread.start()
+    segmentation_thread.start()
+    slic_thread.start()
+    # hog_thread.start()
+
+    response = make_response()
+    response.status_code = 200
+    return response
 
 
 if __name__ == "__main__":
