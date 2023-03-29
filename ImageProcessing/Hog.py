@@ -17,6 +17,7 @@ class Hog:
         self.mongo_connector = MongoConnector()
 
     def computate(self):
+        print("Hog started")
         images = []
         Names = []
         final_img = []
@@ -36,9 +37,7 @@ class Hog:
 
         i=0
         for img in final_img:
-            # if i > 20:
-            #     break
-
+    
             hog = Hog_descriptor(img, cell_size=16, bin_size=16)
             vector, image = hog.extract()
             print("processed "+ str(i)+" of "+str(len(final_img)))
@@ -74,12 +73,9 @@ class Hog:
 
         distance_matrix = np.maximum(distance_matrix, distance_matrix.transpose())
         distance_matrix = np.array(distance_matrix)
-        #distance_matrix[~np.isnan(distance_matrix)]=0
         distance_matrix[~np.isfinite(distance_matrix)]=0
-
-        cond_distance_matrix = distance.squareform(distance_matrix)
         
-        Z = linkage(distance_matrix, method='average')    
+        Z = linkage(distance_matrix, method='ward')    
         base64_dendrogram = io.BytesIO()
 
         plt.figure(figsize=(12, 6))
