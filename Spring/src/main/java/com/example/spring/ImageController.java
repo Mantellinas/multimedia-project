@@ -180,6 +180,7 @@ public class ImageController {
             return modelAndView;
         }*/
         ArrayList<HogImage> hogImages = clusteringHog.feat_imgs;
+        List<GalleryImage> decodedImages = new ArrayList<>();
         /*if(hogImages == null){
             modelAndView.setViewName("error.html");
             return modelAndView;
@@ -192,7 +193,12 @@ public class ImageController {
                         Base64.getEncoder().encodeToString(hogImage.featimg.getData()));
                 break;
             }
+
         }
+        for(HogImage hogImage: hogImages){
+            decodedImages.add(new GalleryImage(Base64.getEncoder().encodeToString(hogImage.featimg.getData()), hogImage.imageid));
+        }
+        model.addAttribute("images" , decodedImages);
         model.addAttribute("dendrogram", clusteringHog.dendrogram);
         model.addAttribute("cluster", kMeansImage.get().cluster);
         modelAndView.setViewName("clustering.html");

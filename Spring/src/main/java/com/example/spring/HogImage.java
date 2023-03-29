@@ -4,8 +4,8 @@ import org.bson.types.Binary;
 import org.bson.types.ObjectId;
 
 public class HogImage {
-    ObjectId baseimageid;
-    Binary featimg;
+    public ObjectId baseimageid;
+    public Binary featimg;
 
-    String id;
+    public String imageid;
 }
