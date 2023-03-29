@@ -3,8 +3,8 @@ import numpy as np
 import base64
 import io
 from MongoConnector import *
+from HogSupport import *
 from PIL import Image
-from skimage.feature import hog
 from scipy.spatial import distance
 from skimage import color
 from scipy.cluster.hierarchy import dendrogram, linkage
@@ -17,10 +17,12 @@ class Hog:
         self.mongo_connector = MongoConnector()
 
     def computate(self):
+        images = []
         Names = []
         final_img = []
-        images = []
-
+        feat_ims = []
+        fd_list = []
+        
         results = self.mongo_connector.getAllDocument(COLLECTION)
 
         for entry in results:
@@ -32,40 +34,52 @@ class Hog:
             im = color.rgb2gray(im)
             final_img.append(np.array(im))
 
-        # creating a list to store HOG feature vectors
-        fd_list = []
+        i=0
+        for img in final_img:
+            # if i > 20:
+            #     break
 
-        feat_ims = []
-        n = len(final_img)
+            hog = Hog_descriptor(img, cell_size=16, bin_size=16)
+            vector, image = hog.extract()
+            print("processed "+ str(i)+" of "+str(len(final_img)))
+            
+            fd_list.append(np.mean(np.array(vector),axis=1))
 
-        for i in range(n):
-            fd, hog_image = hog(final_img[i], orientations=9, pixels_per_cell=(
-                8, 8), cells_per_block=(2, 2), visualize=True, feature_vector=True, channel_axis=None)   
-
-            fd_list.append(fd)          
-
-            im = Image.fromarray(((hog_image * 255).astype(np.uint8)))  
+            im = Image.fromarray(((image * 255).astype(np.uint8)))  
             image_hog= io.BytesIO()
+            im.save(image_hog, format='JPEG') 
 
-            im.convert('RGB').save(image_hog, format='png') 
             feat_ims.append({'baseimageid': ObjectId(Names[i]),
                             'featimg': image_hog.getvalue(),
                             'imageid' : i
                             })
+            i+=1
 
+        n = len(fd_list)
+        
         distance_matrix = np.zeros((n, n))  
 
-        for i in range(n):
-            fd_i = fd_list[i]
-            for k in range(i):
+        for j in range(n):
+            fd_i = fd_list[j]
+            for k in range(n): #j
                 fd_k = fd_list[k]
-               
-                distance_matrix[i, k] = distance.jensenshannon(fd_i, fd_k)
+                
+                if len(fd_i) != len(fd_k):
+                    fd_i = fd_i[: min(len(fd_i), len(fd_k))]
+                    fd_k = fd_k[: min(len(fd_i), len(fd_k))]
+                    distance_matrix[j, k] = distance.jensenshannon(fd_i, fd_k) 
+                else:
+                    distance_matrix[j, k] = distance.jensenshannon(fd_i, fd_k)
+        
+
         distance_matrix = np.maximum(distance_matrix, distance_matrix.transpose())
+        distance_matrix = np.array(distance_matrix)
+        #distance_matrix[~np.isnan(distance_matrix)]=0
+        distance_matrix[~np.isfinite(distance_matrix)]=0
 
         cond_distance_matrix = distance.squareform(distance_matrix)
-
-        Z = linkage(cond_distance_matrix, method='ward')    
+        
+        Z = linkage(distance_matrix, method='average')    
         base64_dendrogram = io.BytesIO()
 
         plt.figure(figsize=(12, 6))
@@ -81,3 +95,5 @@ class Hog:
         }
 
         self.mongo_connector.writeDocument(OUTPUTCOLLECTION, document)
+        print("HOG completed")
+

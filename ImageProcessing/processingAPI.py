@@ -20,11 +20,6 @@ hog = Hog()
 
 @ProcessingAPI.route('/processing', methods=['GET'])
 def processing():
-    #cd_FAST.computate()
-    # clustering_K_means.computate()
-    # segmentation.computate()
-    # slic.computate()
-    # hog.computate()
 
     fast_thread = threading.Thread(target=cd_FAST.computate(), name='fast_thread')
     Kmeans_thread = threading.Thread(target=clustering_K_means.computate(), name='Kmeans_thread')
@@ -36,7 +31,7 @@ def processing():
     Kmeans_thread.start()
     segmentation_thread.start()
     slic_thread.start()
-    # hog_thread.start()
+    hog_thread.start()
 
     response = make_response()
     response.status_code = 200
