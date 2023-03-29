@@ -156,39 +156,44 @@ public class ImageController {
 
     @GetMapping("/clustering")
     public ModelAndView clustering(@RequestParam("baseImageIdClustering") String baseImageIdClustering, Model model) {
+        System.out.print("Prova ");
         ModelAndView modelAndView = new ModelAndView();
         // get latest image and latest 12 images
         Optional<BaseImage> baseImagePrincipal = Imageservice.getBaseImageById(new ObjectId(baseImageIdClustering));
-        if(baseImagePrincipal.isPresent() == false){
+        System.out.print("Prova 1");
+        /*if(baseImagePrincipal.isPresent() == false){
             modelAndView.setViewName("error.html");
             return modelAndView;
-        }
+        }*/
         Optional<KMeansImage> kMeansImage = kMeansService.getCluster(new ObjectId(baseImageIdClustering));
-        if(kMeansImage.isPresent() == false){
+        System.out.print("Prova 2");
+        /*if(kMeansImage.isPresent() == false){
             modelAndView.setViewName("error.html");
             return modelAndView;
-        }
+        }*/
         model.addAttribute("imagebase",
                 Base64.getEncoder().encodeToString(baseImagePrincipal.get().img.getData()));
         ClusteringHog clusteringHog = hogService.getLastHog();
-        if(clusteringHog == null){
+        System.out.print("Prova 3");
+        /*if(clusteringHog == null){
             modelAndView.setViewName("error.html");
             return modelAndView;
-        }
+        }*/
         ArrayList<HogImage> hogImages = clusteringHog.feat_imgs;
-        if(hogImages == null){
+        /*if(hogImages == null){
             modelAndView.setViewName("error.html");
             return modelAndView;
-        }
+        }*/
+        System.out.print("4");
         for(HogImage hogImage: hogImages){
-            if(hogImage.baseimageid.toString() == baseImageIdClustering){
+            if(hogImage.baseimageid.toString().equals(baseImageIdClustering)){
                 //ho trovato l'immagine con le stelline e posso stamparla
                 model.addAttribute("imageHog",
                         Base64.getEncoder().encodeToString(hogImage.featimg.getData()));
                 break;
             }
         }
-        model.addAttribute("dendrogram",clusteringHog.dendrogram.getData());
+        model.addAttribute("dendrogram", clusteringHog.dendrogram);
         model.addAttribute("cluster", kMeansImage.get().cluster);
         modelAndView.setViewName("clustering.html");
         return modelAndView;

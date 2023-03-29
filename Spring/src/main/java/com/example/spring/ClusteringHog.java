@@ -14,5 +14,5 @@ public class ClusteringHog
     public ObjectId id;
     public ArrayList<HogImage> feat_imgs;
 
-    public Binary dendrogram;
+    public String dendrogram;
 }
