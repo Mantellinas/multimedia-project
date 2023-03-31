@@ -12,6 +12,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import io.micrometer.core.annotation.Timed;
+
 import javax.management.Query;
 import java.util.*;
 
@@ -22,22 +24,20 @@ public class ImageController {
     private ImageService Imageservice;
     @Autowired
     private FastService fastservice;
-    @Autowired
 
+    @Autowired
     private SegImageService segImageService;
 
     @Autowired
-
     private SlicImageService slicImageService;
 
     @Autowired
-
     private KMeansService kMeansService;
 
-
     @Autowired
-
     private HogService hogService;
+    
+    @Timed(value="welcome.get.time",description="time to greeting",percentiles={0.5,0.9})
     @RequestMapping("/")
     public ModelAndView welcome(@RequestParam(required = false) String param, Model model) {
         ModelAndView modelAndView = new ModelAndView();
@@ -65,6 +65,8 @@ public class ImageController {
         return modelAndView;
     }
 
+
+    @Timed(value="fast.get.time",description="time to fast",percentiles={0.5,0.9})
     @GetMapping("/fast")
     public ModelAndView fast(@RequestParam("baseImageId") String baseImageId, Model model) {
         ModelAndView modelAndView = new ModelAndView();
@@ -86,6 +88,7 @@ public class ImageController {
         modelAndView.setViewName("fast.html");
         return modelAndView;
     }
+    @Timed(value="segmentation.get.time",description="time to segmentation",percentiles={0.5,0.9})
     @GetMapping("/segmentation")
     public ModelAndView segmentation(@RequestParam("baseImageIdSeg") String baseImageIdSeg, Model model) {
         ModelAndView modelAndView = new ModelAndView();
@@ -124,6 +127,7 @@ public class ImageController {
         return modelAndView;
     }
 
+    @Timed(value="slic.get.time",description="time to slic",percentiles={0.5,0.9})
     @GetMapping("/slic")
     public ModelAndView slic(@RequestParam("baseImageIdSlic") String baseImageIdSlic, Model model) {
         ModelAndView modelAndView = new ModelAndView();
@@ -154,6 +158,7 @@ public class ImageController {
         return modelAndView;
     }
 
+    @Timed(value="clustering.get.time",description="time to clustering",percentiles={0.5,0.9})
     @GetMapping("/clustering")
     public ModelAndView clustering(@RequestParam("baseImageIdClustering") String baseImageIdClustering, Model model) {
         System.out.print("Prova ");

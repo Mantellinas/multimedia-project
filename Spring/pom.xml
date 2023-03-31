@@ -71,7 +71,6 @@
          <dependency>
             <groupId>io.micrometer</groupId>
             <artifactId>micrometer-registry-prometheus</artifactId>
-            <scope>runtime</scope>
         </dependency>
 
         <dependency>
@@ -97,7 +96,11 @@
             <artifactId>spring-boot-admin-starter-server</artifactId>
             <version>3.0.0</version>
         </dependency>
-        
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
     </dependencies>
 
     <build>
