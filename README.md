@@ -1,4 +1,4 @@
-# Elaborazione realtime di immagini dei rover su Marte
+# Mars Vision: elaborazione realtime di immagini dei rover presenti su Marte
 L’obiettivo di questo progetto è quello di creare uno strumento di analisi e visualizzazione di semplice utilizzo basato su una pipeline realtime di image processing robusta e resiliente in grado di applicare degli algoritmi di Machine learning e Computer vision a delle rilevazioni fotografiche  effettuate su Marte quotidianamente dai Rover Curiosity, Perseverance e Spirit  per la ricerca di informazioni di interesse. L'endpoint implementato è un'interfaccia web messa a disposizione degli utenti che potranno visualizzare le analisi effettuate in modo rapido, avendo la possibilità di confrontare più risultati contemporaneamente.
 
 ## Architettura del sistema
@@ -29,7 +29,9 @@ RabbitMQ è una coda di messaggi utilizzata per gestire la comunicazione tra i d
 Lo script Python di preprocessing è il primo componente di elaborazione del sistema ed è responsabile di trasformare le immmagini in un formato adatto all'elaborazione. Lo script legge i messaggi dalla coda di messaggi RabbitMQ, effettua un filtraggio delle immagini, all'occorrenza trasformandole in bianco e nero e le scrive su una collezione MongoDB chiamata "base_image".
 
 ## <img src="https://cdn.worldvectorlogo.com/logos/python-5.svg" style="zoom:3%;" > Image Processing
-Lo scipt di image processing fa uso di librerie come Tensorflow e Keras per effettuare l'elaborazione finale delle immagini, questa parte della pipeline è attivata giornalmente tramite dei cronjob che permettono di effettuare il pool delle immagini ed applicare algoritmi di Segmentazione, Object detection e clustering alle immagini. I risultati finali sono memorizzati in formato Base64 all'interno di apposite collection MongoDB.
+Lo scipt di image processing fa uso di librerie come Tensorflow, Keras e SkLearn per effettuare l'elaborazione finale delle immagini, questa parte della pipeline è attivata giornalmente tramite una chiamata api effettuata dal microservizio di preprocessing al termine della sua esecuzione. Dopo questa chiamata, lo script si occupa di effettuare il pull delle immagini dal database e di applicare algoritmi di Segmentazione, Corner detection e Clustering alle immagini. I risultati finali sono memorizzati in formato Base64 all'interno di apposite collection MongoDB.
+
+Una spiegazione più dettagliata degli algoritmi utilizzati è reperibile al seguente [link](https://github.com/)
 
 ## <img src="https://cdn.worldvectorlogo.com/logos/mongodb-icon-1.svg" style="zoom:3%;" > MongoDB
 MongoDB è un database NoSQL utilizzato per archiviare le immagini. Le immagini vengono archiviate in diverse collezioni MongoDB: "base_image" contiene le immagini originali, mentre le immagini elaborate vengono archiviate in altre collezioni apposite.
