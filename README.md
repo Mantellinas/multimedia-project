@@ -4,7 +4,7 @@ L’obiettivo di questo progetto è quello di creare uno strumento di analisi e 
 ## Architettura del sistema
 Il sistema è progettato per elaborare le immagini in maniera scalabile e in tempo reale. L'architettura basata sui microservizi permette di isolare e distribuire facilmente le diverse funzionalità del sistema.
 <p align="center">
-  <img src="images/pipeline.png" alt="data-pipeline" width=800/>
+  <img src="_media_/pipeline.png" alt="data-pipeline" width=800/>
 </p>
 
 La pipeline di elaborazione delle immagini è composta da tre fasi principali:
@@ -42,7 +42,8 @@ Prometheus è un server di monitoraggio utilizzato per monitorare le prestazioni
 
 
 ## Esecuzione
-* Clonare il repository con il comando `git clone https://github.com/Mantellinas/multimedia-project/`
-* Navigare nella directory Docker del progetto con il comando `cd Docker`
+* Clonare il repository con il comando `git clone https://github.com/Mantellinas/multimedia-project/`.
+* Navigare nella directory Docker del progetto con il comando `cd Docker`.
 * Eseguire il comando `docker-compose up --build` per creare e avviare i container. Questo comando avvierà la creazione e l'avvio di tutti i servizi necessari all'interno dei container Docker.
 * Accedere all'applicazione web all'indirizzo `http://localhost:8080`.
+* Accedere alla pagina di Prometheus per il monitoring all'indirizzo `http://localhost:9090`.
