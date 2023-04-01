@@ -3,6 +3,9 @@ L’obiettivo di questo progetto è quello di creare uno strumento di analisi e 
 
 ## Architettura del sistema
 Il sistema è progettato per elaborare le immagini in maniera scalabile e in tempo reale. L'architettura basata sui microservizi permette di isolare e distribuire facilmente le diverse funzionalità del sistema.
+
+L'intera infrastruttura è basata su **container Docker** e orchestrata tramite **Docker Compose**. La totalità della comunicazione avviene tramite REST api e attraverso una rete privata che connette tutti i servizi. 
+
 <p align="center">
  <img src="_media/pipeline.png" style="zoom:3%;" >
 </p>
@@ -25,7 +28,7 @@ Opzionalmente a scopo di monitoring è disponibile un server **Prometheus** cons
 Logstash è un servizio di elaborazione dei dati che effettua richieste HTTP all'API della NASA per recuperare i dati sulle immagini dei rover su Marte. Logstash è configurato per recuperare i dati ogni 24 ore e scrive i dati JSON recuperati su una coda di messaggi RabbitMQ.
 
 ## <img src="https://cdn.worldvectorlogo.com/logos/rabbitmq.svg" style="zoom:3%;" > RabbitMQ
-RabbitMQ è una coda di messaggi utilizzata per gestire la comunicazione tra i diversi servizi del sistema. Logstash scrive i dati sulla coda di messaggi e lo script Python che effettua la elaborazione delle immagini legge i dati dalla coda di messaggi.
+RabbitMQ è una coda di messaggi utilizzata per gestire la comunicazione tra i diversi servizi del sistema. Logstash scrive i dati sulla coda di messaggi e lo script Python che effettua la pre-elaborazione delle immagini legge i dati dalla coda di messaggi.
 
 ## <img src="https://cdn.worldvectorlogo.com/logos/python-5.svg" style="zoom:3%;" > Preprocessing
 Lo script Python di preprocessing è il primo componente di elaborazione del sistema ed è responsabile di trasformare le immmagini in un formato adatto all'elaborazione. Lo script legge i messaggi dalla coda di messaggi RabbitMQ, effettua un filtraggio delle immagini, all'occorrenza trasformandole in bianco e nero e le scrive su una collezione MongoDB chiamata "base_image".
@@ -39,7 +42,7 @@ Una spiegazione più dettagliata degli algoritmi utilizzati è reperibile al seg
 MongoDB è un database NoSQL utilizzato per archiviare le immagini. Le immagini vengono archiviate in diverse collezioni MongoDB: "base_image" contiene le immagini originali, mentre le immagini elaborate vengono archiviate in altre collezioni apposite.
 
 ## <img src="https://cdn.worldvectorlogo.com/logos/spring-3.svg" style="zoom:3%;" > SpringBoot
-La REST API Spring Boot fornisce un'interfaccia RESTful per accedere alle immagini elaborate e visualizzarle su un sito web. La API fornisce endpoint per recuperare le immagini elaborate e mostrarle all'utente finale.
+La REST API Spring Boot fornisce un'interfaccia RESTful per accedere alle immagini elaborate e visualizzarle su una dashboard web. L'API fornisce endpoint per recuperare le immagini elaborate e mostrarle all'utente finale.
 
 ## <img src="https://cdn.worldvectorlogo.com/logos/prometheus.svg" style="zoom:3%;" > Prometheus
 Prometheus è un server di monitoraggio utilizzato per monitorare le prestazioni della REST API Spring Boot. Prometheus raccoglie dati sulle richieste HTTP in ingresso e sulle prestazioni del server.
