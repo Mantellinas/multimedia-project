@@ -4,7 +4,7 @@ L’obiettivo di questo progetto è quello di creare uno strumento di analisi e 
 ## Architettura del sistema
 Il sistema è progettato per elaborare le immagini in maniera scalabile e in tempo reale. L'architettura basata sui microservizi permette di isolare e distribuire facilmente le diverse funzionalità del sistema.
 <p align="center">
-  <img src="_media_/pipeline.png" alt="data-pipeline" width=800/>
+ <img src="_media/pipeline.png" style="zoom:3%;" >
 </p>
 
 La pipeline di elaborazione delle immagini è composta da tre fasi principali:
