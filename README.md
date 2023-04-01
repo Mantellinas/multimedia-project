@@ -11,11 +11,13 @@ La pipeline di elaborazione delle immagini è composta da tre fasi principali:
 
 **Raccolta dei dati:** Logstash effettua richieste HTTP all'API della NASA per recuperare i dati sulle immagini dei rover su Marte e li scrive su una coda di messaggi RabbitMQ.
 
-**Elaborazione delle immagini:** uno script Python legge i messaggi dalla coda di messaggi RabbitMQ, fa il preprocessing delle immagini per renderle adatte alla computazione e le scrive su una collezione MongoDB chiamata "base_image".
+**Elaborazione delle immagini:** uno script Python legge i messaggi dalla coda RabbitMQ, effettua il preprocessing delle immagini per renderle adatte alla computazione e le scrive su una collezione MongoDB chiamata "base_image".
 
-**Applicazione degli algoritmi:** uno script Python effettua cronjob ogni 24 ore che leggono le immagini dalla collezione "base_image", effettua le operazioni di machine learning e scrive le immagini risultanti su altre collezioni MongoDB.
+**Applicazione degli algoritmi:** uno script Python viene richiamato tramite una chiamata API ogni 24 dal microservizio precedente. La chiamata scatena la lettura delle immagini dalla collezione "base_image", fa partire le operazioni di processing e scrive le immagini risultanti su altre collezioni MongoDB.
 
 Infine, l'**API RESTful Spring Boot** fornisce un'interfaccia per accedere alle immagini elaborate e visualizzarle su un sito web.
+
+Opzionalmente a scopo di monitoring è disponibile un server **Prometheus** consultabile tramite una dashboard web che effettua il monitoring della pipeline.
 
 ## Componenti del sistema
 
@@ -31,7 +33,7 @@ Lo script Python di preprocessing è il primo componente di elaborazione del sis
 ## <img src="https://cdn.worldvectorlogo.com/logos/python-5.svg" style="zoom:3%;" > Image Processing
 Lo scipt di image processing fa uso di librerie come Tensorflow, Keras e SkLearn per effettuare l'elaborazione finale delle immagini, questa parte della pipeline è attivata giornalmente tramite una chiamata api effettuata dal microservizio di preprocessing al termine della sua esecuzione. Dopo questa chiamata, lo script si occupa di effettuare il pull delle immagini dal database e di applicare algoritmi di Segmentazione, Corner detection e Clustering alle immagini. I risultati finali sono memorizzati in formato Base64 all'interno di apposite collection MongoDB.
 
-Una spiegazione più dettagliata degli algoritmi utilizzati è reperibile al seguente [link](https://github.com/)
+Una spiegazione più dettagliata degli algoritmi utilizzati è reperibile al seguente [link](https://github.com/Mantellinas/multimedia-project/blob/main/_media/relazione.pdf).
 
 ## <img src="https://cdn.worldvectorlogo.com/logos/mongodb-icon-1.svg" style="zoom:3%;" > MongoDB
 MongoDB è un database NoSQL utilizzato per archiviare le immagini. Le immagini vengono archiviate in diverse collezioni MongoDB: "base_image" contiene le immagini originali, mentre le immagini elaborate vengono archiviate in altre collezioni apposite.
