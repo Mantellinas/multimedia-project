@@ -116,7 +116,7 @@ footer {
     left: 0px;
     right: 0px;
     background-color: #333 !important;
-    padding: 20px;
+    padding: 10px;
     margin: 8px;
     display: flex;
     justify-content: space-between;
@@ -191,4 +191,11 @@ footer {
     padding: 10px 20px;
     cursor: pointer;
     z-index: 1;
+}
+
+.footer-left > img {
+    height: 75px;
+}
+.footer-center > p {
+    color: #fff;
 }
