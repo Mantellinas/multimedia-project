@@ -3,6 +3,7 @@
 
 <head>
     <title>Multimedia</title>
+    <link rel="icon" type="image/ico" th:href="@{images/favicon.ico}">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link th:href="@{/css/style.css}" rel="stylesheet">
@@ -74,14 +75,10 @@
         </p>
     </div>
     <div class="container">
-        <p th:text="${cluster}">Cluster</p>
+        <h3 th:text="'Cluster: '+ ${cluster}"></h3>
         <div class="image-container">
             <img th:src="*{'data:image/png;base64,'+imagebase}" alt="Image 2">
             <div class="caption">Image Originale</div>
-        </div>
-        <div class="image-container">
-            <img th:src="*{'data:image/png;base64,'+imageHog}" alt="Image 2">
-            <div class="caption">Image HOG</div>
         </div>
         <div class="image-grid">
             <div class="image-grid-item" th:each="image : ${images}">
@@ -103,7 +100,7 @@
             <img src="https://iplab.dmi.unict.it/dottinf/user/themes/dottorato/images/unict.png" alt="Logo">
         </div>
         <div class="footer-center">
-            <p>Text goes here</p>
+            <p>Mars is there, waiting to be reached.</p>
         </div>
         <div class="footer-right">
             <a href="linkedin.com/in/mario-benissimo/" target="_blank"

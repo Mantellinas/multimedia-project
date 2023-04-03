@@ -9,10 +9,10 @@ import java.util.List;
 public class ChunkService {
 
     @Autowired
-    ChunkRepository chunkReposityory;
+    ChunkRepository chunkRepository;
 
     public List<Chunk> getChunksById(ObjectId id){
-        return chunkReposityory.findByfilesId(id);
+        return chunkRepository.findAllByFilesId(id);
     }
     
 

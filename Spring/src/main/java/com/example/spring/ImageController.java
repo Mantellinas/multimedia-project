@@ -168,13 +168,11 @@ public class ImageController {
         ModelAndView modelAndView = new ModelAndView();
         // get latest image and latest 12 images
         Optional<BaseImage> baseImagePrincipal = Imageservice.getBaseImageById(new ObjectId(baseImageIdClustering));
-        System.out.print("Prova 1");
         /*if(baseImagePrincipal.isPresent() == false){
             modelAndView.setViewName("error.html");
             return modelAndView;
         }*/
         Optional<KMeansImage> kMeansImage = kMeansService.getCluster(new ObjectId(baseImageIdClustering));
-        System.out.print("Prova 2");
         /*if(kMeansImage.isPresent() == false){
             modelAndView.setViewName("error.html");
             return modelAndView;
@@ -219,21 +217,31 @@ public class ImageController {
         List<GalleryImage> decodedImages = new ArrayList<>();
 
 
+        List<Chunk> chunks = new ArrayList<>();
+
         for(HogImage hgimg : hogImages){
-            featImgIds.add(hgimg.featimgid);   
-             //costruire lista di featimg_id
+            featImgIds.add(hgimg.featimgid);
         }
 
-        List<Chunk> chunks = new ArrayList<>();
+        // for(HogImage hogImage: hogImages){
+        //     if(hogImage.baseimageid.toString().equals(baseImageIdClustering)){
+        //         //ho trovato l'immagine con le stelline e posso stamparla
+        //         model.addAttribute("imageHog",
+        //                 Base64.getEncoder().encodeToString(hogImage.featimg.getData()));
+        //         break;
+        //     }
+
 
         for(ObjectId id : featImgIds){
             chunks = chunkService.getChunksById(id);
-
-            String img;
+            //System.out.println(chunks.size());
+            String img="";
             for(Chunk c : chunks){
-                img = img + c.data;
+                //System.out.println(img);
+                img = img + Base64.getEncoder().encodeToString(c.data.getData());
             }
-            decodedImages.add(new GalleryImage(img, hogImage.imageid));
+            //System.out.println(img);
+            decodedImages.add(new GalleryImage(img, "1"));
         }
 
         //per ogni elemento nella lista di featimg_id cercare su fs.chunk tutti i risultati trovati e concatenare la stringa

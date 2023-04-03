@@ -5,6 +5,7 @@
   <title>Multimedia</title>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <link rel="icon" type="image/ico" th:href="@{images/favicon.ico}">
   <link th:href="@{/css/style.css}" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css" integrity="sha512-MpQiHStlt/9GCO+ifDyqL+gHt2EJ+I1Rt7ZMvMllpJ7M8X5Pcblnue5BvNyquV7C8KjITDNQ7fZbnnJ5V7P8A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Trirong">
@@ -85,10 +86,11 @@
     <div class="caption">Immagine watershed</div>
   </div>
 </div>
-<p th:text="${felzenszwalbSegment}"></p>
-<p th:text="${quickshiftSegment}"></p>
-<p th:text="${slicSegment}"></p>
-<p th:text="${watershedSegment}"></p>
+<h3 th:text="'felzenszwalbSegment: '+ ${felzenszwalbSegment}"></h3>
+<h3 th:text="'quickshiftSegment: '+ ${quickshiftSegment}"></h3>
+<h3 th:text="'slicSegment: '+ ${slicSegment}"></h3>
+<h3 th:text="'watershedSegment: '+ ${watershedSegment}"></h3>
+
 <footer>
   <div class="footer-left">
     <img src="https://iplab.dmi.unict.it/dottinf/user/themes/dottorato/images/unict.png" alt="Logo">

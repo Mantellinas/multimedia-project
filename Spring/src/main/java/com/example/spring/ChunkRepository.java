@@ -8,6 +8,6 @@ import java.util.List;
 
 @Repository
 public interface ChunkRepository extends MongoRepository<Chunk, String> {
-    public List<Chunk>  findByfilesId(ObjectId filesId);
+    public List<Chunk>  findAllByFilesId(ObjectId filesId);
 
 }
