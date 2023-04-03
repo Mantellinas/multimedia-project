@@ -37,7 +37,8 @@ class Hog:
 
         i=0
         for img in final_img:
-    
+            if i > 30:
+                break
             hog = Hog_descriptor(img, cell_size=16, bin_size=16)
             vector, image = hog.extract()
             print("processed "+ str(i)+" of "+str(len(final_img)))
@@ -47,11 +48,19 @@ class Hog:
             im = Image.fromarray(((image * 255).astype(np.uint8)))  
             image_hog= io.BytesIO()
             im.save(image_hog, format='JPEG') 
+            
+            index = self.mongo_connector.writeGridDocument(image_hog.getvalue()) #
 
-            feat_ims.append({'baseimageid': ObjectId(Names[i]),
-                            'featimg': image_hog.getvalue(),
+
+            feat_ims.append({'baseimageid': ObjectId(Names[i]), #
+                            'featimgid': index,
                             'imageid' : i
-                            })
+                    })
+
+            # feat_ims.append({'baseimageid': ObjectId(Names[i]),
+            #                 'featimg': image_hog.getvalue(),
+            #                 'imageid' : i
+            #                 })
             i+=1
 
         n = len(fd_list)
@@ -90,6 +99,32 @@ class Hog:
             'dendrogram' : my_base64_dendrogram.decode()
         }
 
+
         self.mongo_connector.writeDocument(OUTPUTCOLLECTION, document)
+
+
+
+
+
+
+        x = self.mongo_connector.getAllDocument(OUTPUTCOLLECTION)
+
+
+        #TODO sistemare qui capire come accedere agli id degli shard
+
+        
+        #TODO cercare di unificare i documenti ottenuti dai chunks e poi farlo in java
+
+        
+
+        #for i in range(len(x[0]['feat_imgs'])):                    #i
+        res = self.mongo_connector.getGridDocument(x[0]['feat_imgs'][0]['featimgid']['$oid'])  #id di tutte le img
+
+        result=""
+        for i in range(len(res)):
+            result+= res[i]['data']['$binary']['base64']
+        
+        print(result)
+
         print("HOG completed")
 

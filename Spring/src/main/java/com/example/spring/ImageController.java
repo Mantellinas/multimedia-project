@@ -36,6 +36,9 @@ public class ImageController {
 
     @Autowired
     private HogService hogService;
+
+    @Autowired
+    private ChunkService chunkService;
     
     @Timed(value="welcome.get.time",description="time to greeting",percentiles={0.5,0.9})
     @RequestMapping("/")
@@ -178,31 +181,66 @@ public class ImageController {
         }*/
         model.addAttribute("imagebase",
                 Base64.getEncoder().encodeToString(baseImagePrincipal.get().img.getData()));
-        ClusteringHog clusteringHog = hogService.getLastHog();
-        System.out.print("Prova 3");
-        /*if(clusteringHog == null){
-            modelAndView.setViewName("error.html");
-            return modelAndView;
-        }*/
-        ArrayList<HogImage> hogImages = clusteringHog.feat_imgs;
-        List<GalleryImage> decodedImages = new ArrayList<>();
-        /*if(hogImages == null){
-            modelAndView.setViewName("error.html");
-            return modelAndView;
-        }*/
-        System.out.print("4");
-        for(HogImage hogImage: hogImages){
-            if(hogImage.baseimageid.toString().equals(baseImageIdClustering)){
-                //ho trovato l'immagine con le stelline e posso stamparla
-                model.addAttribute("imageHog",
-                        Base64.getEncoder().encodeToString(hogImage.featimg.getData()));
-                break;
-            }
+        // ClusteringHog clusteringHog = hogService.getLastHog();
+        // System.out.print("Prova 3");
+        // /*if(clusteringHog == null){
+        //     modelAndView.setViewName("error.html");
+        //     return modelAndView;
+        // }*/
+        // ArrayList<HogImage> hogImages = clusteringHog.feat_imgs;
+        // List<GalleryImage> decodedImages = new ArrayList<>();
+        // /*if(hogImages == null){
+        //     modelAndView.setViewName("error.html");
+        //     return modelAndView;
+        // }*/
+        // System.out.print("4");
+        // for(HogImage hogImage: hogImages){
+        //     if(hogImage.baseimageid.toString().equals(baseImageIdClustering)){
+        //         //ho trovato l'immagine con le stelline e posso stamparla
+        //         model.addAttribute("imageHog",
+        //                 Base64.getEncoder().encodeToString(hogImage.featimg.getData()));
+        //         break;
+        //     }
 
+        // }
+        // for(HogImage hogImage: hogImages){
+        //     decodedImages.add(new GalleryImage(Base64.getEncoder().encodeToString(hogImage.featimg.getData()), hogImage.imageid));
+        // }
+
+
+        //(x[0]['feat_imgs'][0]['featimg_id']['$oid']
+
+        ClusteringHog clusteringHog = hogService.getLastHog();
+
+        ArrayList<HogImage> hogImages = clusteringHog.feat_imgs; //da qui prendere tutti i featimg_id cambiare nome
+
+        ArrayList<ObjectId>  featImgIds = new ArrayList<>();
+
+        List<GalleryImage> decodedImages = new ArrayList<>();
+
+
+        for(HogImage hgimg : hogImages){
+            featImgIds.add(hgimg.featimgid);   
+             //costruire lista di featimg_id
         }
-        for(HogImage hogImage: hogImages){
-            decodedImages.add(new GalleryImage(Base64.getEncoder().encodeToString(hogImage.featimg.getData()), hogImage.imageid));
+
+        List<Chunk> chunks = new ArrayList<>();
+
+        for(ObjectId id : featImgIds){
+            chunks = chunkService.getChunksById(id);
+
+            String img;
+            for(Chunk c : chunks){
+                img = img + c.data;
+            }
+            decodedImages.add(new GalleryImage(img, hogImage.imageid));
         }
+
+        //per ogni elemento nella lista di featimg_id cercare su fs.chunk tutti i risultati trovati e concatenare la stringa
+
+        //scrivere la stringa nella lista decodedImages 
+
+
         model.addAttribute("images" , decodedImages);
         model.addAttribute("dendrogram", clusteringHog.dendrogram);
         model.addAttribute("cluster", kMeansImage.get().cluster);

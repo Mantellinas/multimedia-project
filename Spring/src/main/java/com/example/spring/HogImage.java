@@ -5,7 +5,7 @@ import org.bson.types.ObjectId;
 
 public class HogImage {
     public ObjectId baseimageid;
-    public Binary featimg;
+    public ObjectId featimgid;
 
     public String imageid;
 }

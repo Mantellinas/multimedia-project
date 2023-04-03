@@ -1,6 +1,7 @@
 from pymongo import MongoClient
 from bson.objectid import ObjectId
 from bson.json_util import dumps
+import gridfs
 import os
 import json
 
@@ -28,6 +29,8 @@ class MongoConnector:
                 password    = self.mongo_pass,
                 authMechanism='SCRAM-SHA-256'
             )
+
+
         except Exception as e:
             print(e)
             self.connection = None
@@ -44,7 +47,12 @@ class MongoConnector:
             collection = database[collection_name]
             return database, collection
         except Exception as e:
-            return None, None
+            return None, None   
+        
+    def database_grid_connection(self):
+        fs = gridfs.GridFS(self.connection[self.mongo_db])
+        return fs
+        
 
     def getDocumentById(self, collection_name , _id):
         database, collection = self.database_collection_selection(collection_name)
@@ -60,6 +68,19 @@ class MongoConnector:
         cursor = collection.find()
         list_cur = list(cursor)
         return json.loads(dumps(list_cur, indent = 2))
+    
+
+    def writeGridDocument(self, document):
+        fs = self.database_grid_connection()
+        index = fs.put(document)
+        return index 
+
+    def getGridDocument(self, grid_index):
+        database, collection = self.database_collection_selection("fs.chunks")
+        doc = collection.find({"files_id" : ObjectId(grid_index)})
+        list_cur = list(doc)
+        return json.loads(dumps(list_cur, indent = 2))
+
         
 
         
