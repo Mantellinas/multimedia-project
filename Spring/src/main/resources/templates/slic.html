@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 
 <head>
-  <title>Multimedia</title>
+  <title>Slic</title>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <link rel="icon" type="image/ico" th:href="@{images/favicon.ico}">
@@ -18,6 +18,10 @@
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
+  }
+
+  .last-container{
+    margin-bottom: 150px;
   }
 
   .image-container {
@@ -66,30 +70,26 @@
 </header>
 <div class="navbar" id="navbar">
   <h2>Slic</h2>
-  <p>SLIC (Simple Linear Iterative Clustering) è un algoritmo di segmentazione delle immagini che raggruppa i pixel simili in cluster, basandosi sulla loro vicinanza spaziale e colore. L'algoritmo utilizza una tecnica di clustering iterativo e lineare per ridurre la complessità computazionale e garantire una segmentazione precisa e rapida delle immagini. SLIC è ampiamente utilizzato in applicazioni di elaborazione delle immagini, come il riconoscimento di oggetti, la segmentazione semantica e l'estrazione delle caratteristiche.</p>
+  <p class="h6">SLIC è un algoritmo di segmentazione delle immagini che raggruppa i pixel simili in cluster, basandosi sulla loro vicinanza spaziale. L'algoritmo utilizza una tecnica di clustering iterativo e lineare. </p>
 </div>
 <div class="container">
   <div class="image-container">
     <img th:src="*{'data:image/png;base64,'+felzenszwalbImg}" alt="felzenszwalbImg">
-    <div class="caption">Immagine felzenszwalb</div>
+    <div class="caption" th:text="'Segmenti Felzenszwalb: '+ ${felzenszwalbSegment}"></div>
   </div>
   <div class="image-container">
     <img th:src="*{'data:image/png;base64,'+SLICImg}" alt="SLICImg">
-    <div class="caption">Immagine SLIC</div>
+    <div class="caption" th:text="'Segmenti SLIC: '+ ${slicSegment}"></div>
   </div>
   <div class="image-container">
     <img th:src="*{'data:image/png;base64,'+quickshiftImg}" alt="quickshiftImg">
-    <div class="caption">Immagine quickshift</div>
+    <div class="caption" th:text="'Segmenti Quickshift: '+ ${quickshiftSegment}"></div>
   </div>
   <div class="image-container last-container">
     <img th:src="*{'data:image/png;base64,'+watershedImg}" alt="watershedImg">
-    <div class="caption">Immagine watershed</div>
+    <div class="caption" th:text="'Segmenti Watershed: '+ ${watershedSegment}"></div>
   </div>
 </div>
-<h3 th:text="'felzenszwalbSegment: '+ ${felzenszwalbSegment}"></h3>
-<h3 th:text="'quickshiftSegment: '+ ${quickshiftSegment}"></h3>
-<h3 th:text="'slicSegment: '+ ${slicSegment}"></h3>
-<h3 th:text="'watershedSegment: '+ ${watershedSegment}"></h3>
 
 <footer>
   <div class="footer-left">

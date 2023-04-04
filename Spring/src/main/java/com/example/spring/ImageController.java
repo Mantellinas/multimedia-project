@@ -1,20 +1,11 @@
 package com.example.spring;
 
-import jakarta.servlet.http.HttpServletRequest;
-import org.bson.types.Binary;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.querydsl.QPageRequest;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-
 import io.micrometer.core.annotation.Timed;
-
-import javax.management.Query;
 import java.util.*;
 
 @RestController
@@ -22,6 +13,7 @@ public class ImageController {
 
     @Autowired
     private ImageService Imageservice;
+
     @Autowired
     private FastService fastservice;
 
@@ -42,9 +34,9 @@ public class ImageController {
     
     @Timed(value="welcome.get.time",description="time to greeting",percentiles={0.5,0.9})
     @RequestMapping("/")
-    public ModelAndView welcome(@RequestParam(required = false) String param, Model model) {
+    public ModelAndView welcome(@RequestParam(required = false) String param,@RequestParam(required = false) String rover, Model model) {
         ModelAndView modelAndView = new ModelAndView();
-        if (param == null) {
+        if (param == null && rover == null) {
             BaseImage baseImagePrincipal = Imageservice.getLastImage();
             if(baseImagePrincipal == null ){
                 modelAndView.setViewName("error.html");
@@ -53,6 +45,7 @@ public class ImageController {
             model.addAttribute("image",
                     Base64.getEncoder().encodeToString(baseImagePrincipal.img.getData()));
             model.addAttribute("baseImageId", baseImagePrincipal.id);
+            model.addAttribute("rover", baseImagePrincipal.rover);
             modelAndView.setViewName("index.html");
         } else {
             Optional<BaseImage> baseImagePrincipal = Imageservice.getBaseImageById(new ObjectId(param));
@@ -60,6 +53,7 @@ public class ImageController {
                 modelAndView.setViewName("error.html");
                 return modelAndView;
             }
+            model.addAttribute("rover", rover);
             model.addAttribute("image",
                     Base64.getEncoder().encodeToString(baseImagePrincipal.get().img.getData()));
             model.addAttribute("baseImageId", baseImagePrincipal.get().id);
@@ -91,6 +85,8 @@ public class ImageController {
         modelAndView.setViewName("fast.html");
         return modelAndView;
     }
+
+
     @Timed(value="segmentation.get.time",description="time to segmentation",percentiles={0.5,0.9})
     @GetMapping("/segmentation")
     public ModelAndView segmentation(@RequestParam("baseImageIdSeg") String baseImageIdSeg, Model model) {
@@ -130,6 +126,7 @@ public class ImageController {
         return modelAndView;
     }
 
+
     @Timed(value="slic.get.time",description="time to slic",percentiles={0.5,0.9})
     @GetMapping("/slic")
     public ModelAndView slic(@RequestParam("baseImageIdSlic") String baseImageIdSlic, Model model) {
@@ -161,6 +158,7 @@ public class ImageController {
         return modelAndView;
     }
 
+
     @Timed(value="clustering.get.time",description="time to clustering",percentiles={0.5,0.9})
     @GetMapping("/clustering")
     public ModelAndView clustering(@RequestParam("baseImageIdClustering") String baseImageIdClustering, Model model) {
@@ -179,82 +177,39 @@ public class ImageController {
         }*/
         model.addAttribute("imagebase",
                 Base64.getEncoder().encodeToString(baseImagePrincipal.get().img.getData()));
-        // ClusteringHog clusteringHog = hogService.getLastHog();
-        // System.out.print("Prova 3");
-        // /*if(clusteringHog == null){
-        //     modelAndView.setViewName("error.html");
-        //     return modelAndView;
-        // }*/
-        // ArrayList<HogImage> hogImages = clusteringHog.feat_imgs;
-        // List<GalleryImage> decodedImages = new ArrayList<>();
-        // /*if(hogImages == null){
-        //     modelAndView.setViewName("error.html");
-        //     return modelAndView;
-        // }*/
-        // System.out.print("4");
-        // for(HogImage hogImage: hogImages){
-        //     if(hogImage.baseimageid.toString().equals(baseImageIdClustering)){
-        //         //ho trovato l'immagine con le stelline e posso stamparla
-        //         model.addAttribute("imageHog",
-        //                 Base64.getEncoder().encodeToString(hogImage.featimg.getData()));
-        //         break;
-        //     }
-
-        // }
-        // for(HogImage hogImage: hogImages){
-        //     decodedImages.add(new GalleryImage(Base64.getEncoder().encodeToString(hogImage.featimg.getData()), hogImage.imageid));
-        // }
-
-
-        //(x[0]['feat_imgs'][0]['featimg_id']['$oid']
-
+       
         ClusteringHog clusteringHog = hogService.getLastHog();
 
-        ArrayList<HogImage> hogImages = clusteringHog.feat_imgs; //da qui prendere tutti i featimg_id cambiare nome
-
-        ArrayList<ObjectId>  featImgIds = new ArrayList<>();
+        ArrayList<HogImage> hogImages = clusteringHog.feat_imgs;
 
         List<GalleryImage> decodedImages = new ArrayList<>();
 
-
         List<Chunk> chunks = new ArrayList<>();
 
-        for(HogImage hgimg : hogImages){
-            featImgIds.add(hgimg.featimgid);
-        }
+        for(HogImage hogimg : hogImages){
+            chunks = chunkService.getChunksById(hogimg.featimgid);
 
-        // for(HogImage hogImage: hogImages){
-        //     if(hogImage.baseimageid.toString().equals(baseImageIdClustering)){
-        //         //ho trovato l'immagine con le stelline e posso stamparla
-        //         model.addAttribute("imageHog",
-        //                 Base64.getEncoder().encodeToString(hogImage.featimg.getData()));
-        //         break;
-        //     }
-
-
-        for(ObjectId id : featImgIds){
-            chunks = chunkService.getChunksById(id);
-            //System.out.println(chunks.size());
             String img="";
             for(Chunk c : chunks){
-                //System.out.println(img);
                 img = img + Base64.getEncoder().encodeToString(c.data.getData());
             }
-            //System.out.println(img);
-            decodedImages.add(new GalleryImage(img, "1"));
+
+            decodedImages.add(new GalleryImage(img, hogimg.imageid));
         }
-
-        //per ogni elemento nella lista di featimg_id cercare su fs.chunk tutti i risultati trovati e concatenare la stringa
-
-        //scrivere la stringa nella lista decodedImages 
-
-
+       
         model.addAttribute("images" , decodedImages);
         model.addAttribute("dendrogram", clusteringHog.dendrogram);
-        model.addAttribute("cluster", kMeansImage.get().cluster);
+
+        if(kMeansImage.isPresent()){
+            model.addAttribute("cluster", kMeansImage.get().cluster);
+        }else{
+            model.addAttribute("cluster", null);
+        }
+       
         modelAndView.setViewName("clustering.html");
         return modelAndView;
     }
+
 
     @GetMapping("/gallery")
     public ModelAndView gallery(Model model) {
@@ -262,9 +217,8 @@ public class ImageController {
         // get latest image and latest 12 image
         List<GalleryImage> decodedImages = new ArrayList<>();
         List<BaseImage> latestImages = Imageservice.getLatest12Images();
-        List<String> latestIds = new ArrayList<>();
         for (BaseImage image : latestImages){
-            decodedImages.add(new GalleryImage(Base64.getEncoder().encodeToString(image.img.getData()), image.id.toString()));
+            decodedImages.add(new GalleryImage(Base64.getEncoder().encodeToString(image.img.getData()), image.id.toString(), image.rover));
         }
         model.addAttribute("images" , decodedImages);
         modelAndView.setViewName("gallery.html");

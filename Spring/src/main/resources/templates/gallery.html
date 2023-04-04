@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <title>Multimedia</title>
+  <title>Gallery</title>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <link rel="icon" type="image/ico" th:href="@{images/favicon.ico}">
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -36,7 +36,8 @@
   <div class="image-grid-item" th:each="image : ${images}">
     <form action="/" method="get">
     <img th:src="*{'data:image/png;base64,'+image.img}" />
-    <input hidden type="text" name="param" id="param" th:value="${image.id}" style="">
+    <input hidden type="text" name="param" id="param" th:value="${image.id}">
+    <input hidden type="text" name="rover" id="rover" th:value="${image.rover}">
     </form>
   </div>
 </div>
@@ -58,6 +59,17 @@
   $( ".image-grid-item" ).click(function() {
     const form = $(this).find('form');
     form.submit();
+  });
+
+  $(document).ready(function () {
+
+    var today = new Date();
+    var dd = String(today.getDate()).padStart(2, '0');
+    var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+    var yyyy = today.getFullYear();
+
+    today = dd + '/' + mm + '/' + yyyy;
+    $('.date').text(today);
   });
 </script>
 </html>

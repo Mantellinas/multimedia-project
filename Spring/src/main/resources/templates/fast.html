@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 
 <head>
-    <title>Multimedia</title>
+    <title>Fast</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link rel="icon" type="image/ico" th:href="@{images/favicon.ico}">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -20,18 +20,18 @@
 </header>
 <div class="navbar" id="navbar">
     <h2>FAST</h2>
-    <p>L'algoritmo "Features from accelerated segment test" (FAST) è un algoritmo utilizzato per l'estrazione delle caratteristiche dalle immagini. Si basa sulla ricerca di punti chiave in una immagine mediante la valutazione della differenza di luminosità tra un pixel centrale e i suoi otto pixel adiacenti. La velocità dell'algoritmo è aumentata attraverso l'uso di una tecnica di segmentazione accelerata. Questo algoritmo è stato sviluppato per essere utilizzato in applicazioni di visione artificiale, come il rilevamento di oggetti, la localizzazione di punti di interesse e la ricostruzione 3D di scene.</p>
+    <p class="h6">FAST è un algoritmo utilizzato per la feature extraction dalle immagini. Si basa sulla ricerca di punti chiave in una immagine mediante la valutazione della differenza di luminosità tra un pixel centrale e i suoi adiacenti.</p>
 </div>
 
 <div class="container">
     <div class="image-container">
         <img th:src="*{'data:image/png;base64,'+baseImage}" alt="Image 2">
-        <div class="caption">Image Originale</div>
+        <div class="caption">Originale</div>
     </div>
 
     <div class="image-container last-container">
         <img th:src="*{'data:image/png;base64,'+fastImage}" alt="Image 1">
-        <div class="caption">Image FAST</div>
+        <div class="caption">FAST</div>
     </div>
 </div>
 <footer>

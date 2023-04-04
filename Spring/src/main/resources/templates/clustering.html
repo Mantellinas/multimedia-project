@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <title>Multimedia</title>
+    <title>Clustering</title>
     <link rel="icon" type="image/ico" th:href="@{images/favicon.ico}">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -69,18 +69,19 @@
         <button class="toggle-button bi bi-x" onclick="toggleNavbar()"></button>
     </header>
     <div class="navbar" id="navbar">
-        <h2>HOG</h2>
-        <p>
-
+        <h2>Clustering</h2>
+        <p class="h6">
+        
+Il clustering consiste di un insieme di metodi per raggruppare oggetti in classi omogenee. Un cluster è un insieme di oggetti che presentano tra loro delle similarità, ma che, per contro, presentano dissimilarità con oggetti in altri cluster.
         </p>
     </div>
     <div class="container">
         <h3 th:text="'Cluster: '+ ${cluster}"></h3>
         <div class="image-container">
             <img th:src="*{'data:image/png;base64,'+imagebase}" alt="Image 2">
-            <div class="caption">Image Originale</div>
+            <div class="caption">Immagine Originale</div>
         </div>
-        <div class="image-grid">
+        <div class="image-grid" style="margin-top: 130px;">
             <div class="image-grid-item" th:each="image : ${images}">
                 <img th:src="*{'data:image/png;base64,'+image.img}" />
                 <div class="overlay">
@@ -92,7 +93,7 @@
         </div>
         <div class="image-container last-container">
             <img th:src="*{'data:image/png;base64,'+dendrogram}" alt="Image 1">
-            <div class="caption">Dendogramma</div>
+            <div class="caption">Dendrogramma</div>
         </div>
     </div>
     <footer>

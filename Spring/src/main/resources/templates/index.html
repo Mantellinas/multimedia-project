@@ -2,12 +2,12 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 
 <head>
-  <title>Multimedia</title>
+  <title>Mars Vision</title>
   <link rel="icon" type="image/ico" th:href="@{images/favicon.ico}">
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <link th:href="@{/css/style.css}" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css"
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-  bootstrap/5.3.0/css/bootstrap.min.css"
     integrity="sha512-MpQiHStlt/9GCO+ifDyqL+gHt2EJ+I1Rt7ZMvMllpJ7M8X5Pcblnue5BvNyquV7C8KjITDNQ7fZbnnJ5V7P8A=="
     crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Trirong">
@@ -22,8 +22,11 @@
   </header>
 
   <main>
-    <!-- <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis in est ac enim aliquam bibendum eget vitae eros. Nulla dapibus mauris mauris, quis lacinia dolor euismod et. Vestibulum at congue lacus, id pretium ipsum. Nam in nisi sit amet arcu sollicitudin molestie.</p> -->
+
     <img alt="" class="img-pr" th:src="*{'data:image/png;base64,'+image}">
+    <div class="rover-name" th:text="'Rover: '+ ${rover}"></div>
+
+
   </main>
 
 
@@ -47,6 +50,8 @@
           </div>
         </form>
       </li>
+    </nav>
+    <nav class="custom-left-nav">
       <li class="card">
         <form id="slic-form" action="/slic" method="get">
           <div class="form-slic">

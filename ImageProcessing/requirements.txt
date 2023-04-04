@@ -1,6 +1,5 @@
 PyYAML
 pymongo
-apscheduler
 opencv-python
 scikit-learn
 scikit-image

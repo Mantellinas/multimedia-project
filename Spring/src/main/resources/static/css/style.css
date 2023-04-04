@@ -50,12 +50,30 @@ header {
 
 nav.right-nav{
     position: fixed;
+    margin-right: 20px;
     right: 0px;
     top: 100px;
     width: 200px;
     box-sizing: border-box;
     float: right;
 }
+
+.custom-left-nav{
+    position: fixed;
+    left: 0px;
+    margin-left: 20px;
+    top: 100px;
+    width: 200px;
+    box-sizing: border-box;
+    float: left;
+}
+
+.rover-name{
+    margin-top: 40px;   
+    display: flex;
+    justify-content: center;
+}
+
 .card h2 {
     margin: 0px;
     text-align: center;

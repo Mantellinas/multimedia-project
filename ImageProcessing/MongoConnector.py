@@ -75,11 +75,6 @@ class MongoConnector:
         index = fs.put(document)
         return index 
 
-    def getGridDocument(self, grid_index):
-        database, collection = self.database_collection_selection("fs.chunks")
-        doc = collection.find({"files_id" : ObjectId(grid_index)})
-        list_cur = list(doc)
-        return json.loads(dumps(list_cur, indent = 2))
 
         
 

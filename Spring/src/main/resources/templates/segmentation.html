@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 
 <head>
-    <title>Multimedia</title>
+    <title>Segmentazione</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link rel="icon" type="image/ico" th:href="@{images/favicon.ico}">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -66,49 +66,46 @@
 </header>
 <div class="navbar" id="navbar">
     <h2>Segmentazione</h2>
-    <p>La segmentazione delle immagini è il processo di suddividere un'immagine in regioni omogenee che condividono determinate proprietà, come colore, forma o texture. L'obiettivo principale della segmentazione delle immagini è quello di semplificare l'immagine e renderla più facile da analizzare. La segmentazione viene utilizzata in molte applicazioni di visione artificiale, come il rilevamento di oggetti, la classificazione di immagini, la ricostruzione 3D e la compressione delle immagini.</p>
+    <p class="h6">La segmentazione di immagini è il processo di suddividere un'immagine in regioni omogenee che condividono determinate proprietà, come colore, forma o texture. L'obiettivo principale della segmentazione delle immagini è quello di semplificare l'immagine e renderla più facile da analizzare.</p>
 </div>
     <div class="container">
         <div class="image-container">
             <img th:src="*{'data:image/png;base64,'+imageOriginale}" alt="imageOriginale">
-            <div class="caption">Immagine Originale</div>
+            <div class="caption">Originale</div>
         </div>
         <div class="image-container">
             <img th:src="*{'data:image/png;base64,'+imgGrey}" alt="imgGrey">
-            <div class="caption">Immagine Grey</div>
+            <div class="caption">Grey</div>
         </div>
         <div class="image-container">
             <img th:src="*{'data:image/png;base64,'+imgThresh}" alt="imgThresh">
-            <div class="caption">Immagine Thresh</div>
+            <div class="caption">Thresh</div>
         </div>
         <div class="image-container">
             <img th:src="*{'data:image/png;base64,'+imgOpening}" alt="imgOpening">
-            <div class="caption">Immagine Opening</div>
+            <div class="caption">Opening</div>
         </div>
         <div class="image-container">
             <img th:src="*{'data:image/png;base64,'+ImgSureFg}" alt="ImgSureFg">
-            <div class="caption">Immagine Sure FG</div>
+            <div class="caption">Sure FG</div>
         </div>
         <div class="image-container">
             <img th:src="*{'data:image/png;base64,'+ImgSureBg}" alt="ImgSureBg">
-            <div class="caption">Immagine Sure BG</div>
+            <div class="caption">Sure BG</div>
         </div>
         <div class="image-container">
             <img th:src="*{'data:image/png;base64,'+ImgMakers}" alt="ImgMakers">
-            <div class="caption">Immagine Makers</div>
+            <div class="caption">Makers</div>
         </div>
         <div class="image-container">
             <img th:src="*{'data:image/png;base64,'+ImgWatershed}" alt="ImgWatershed">
-            <div class="caption">Immagine Watershed</div>
+            <div class="caption">Watershed</div>
         </div>
         <div class="image-container">
             <img th:src="*{'data:image/png;base64,'+ImgBorder}" alt="ImgBorder">
-            <div class="caption">Immagine Border</div>
+            <div class="caption">Border</div>
         </div>
-        <div class="image-container" style="margin-bottom: 250px">
-            <img th:src="*{'data:image/png;base64,'+baseImage}" alt="baseImage">
-            <div class="caption">Immagine Base</div>
-        </div>
+       
     </div>
     <footer>
         <div class="footer-left">
