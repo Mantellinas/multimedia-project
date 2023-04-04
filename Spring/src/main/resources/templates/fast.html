@@ -11,7 +11,57 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Trirong">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
 </head>
+<style>
+    .container {
+        margin-top: 100px;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+    }
 
+    .last-container{
+        margin-bottom: 150px;
+    }
+
+    .image-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin: 20px;
+        width: 60%;
+        position: relative;
+        cursor: pointer;
+    }
+
+    .image-container img {
+        max-width: 100%;
+        margin-bottom: 20px;
+    }
+
+    .image-container .caption {
+        font-size: 18px;
+        font-weight: bold;
+        position: absolute;
+        bottom: -30px;
+        left: 50%;
+        transform: translateX(-50%);
+        opacity: 0;
+        transition: opacity 0.3s ease-in-out;
+        background-color: #333;
+        color: #fff;
+        padding: 10px 20px;
+        border-radius: 5px;
+        box-shadow: 0 0 5px rgba(0,0,0,0.5);
+        text-align: center;
+        z-index: 1;
+        width: 80%;
+    }
+
+    .image-container:hover .caption {
+        opacity: 1;
+    }
+</style>
 <body>
 <header>
     <h1 class="title"><a href="/">Mars Vision</a></h1>
@@ -29,7 +79,7 @@
         <div class="caption">Originale</div>
     </div>
 
-    <div class="image-container last-container">
+    <div class="image-container" style="margin-bottom: 150px; !important;">
         <img th:src="*{'data:image/png;base64,'+fastImage}" alt="Image 1">
         <div class="caption">FAST</div>
     </div>
