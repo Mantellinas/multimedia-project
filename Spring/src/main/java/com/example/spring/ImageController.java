@@ -158,14 +158,33 @@ public class ImageController {
         return modelAndView;
     }
 
-
+    @GetMapping("/kmeans")
+    public ModelAndView kmeans(@RequestParam("kMeansId") String idKmeans, Model model){
+        ModelAndView modelAndView = new ModelAndView();
+        List<KMeansImage> kCluster = kMeansService.getKMeansByCluster(Integer.parseInt(idKmeans));
+        Optional <BaseImage> baseImage;
+        List<GalleryImage> decodedImages = new ArrayList<>();
+        for(KMeansImage kimage : kCluster){
+            baseImage = Imageservice.getBaseImageById(kimage.baseimageid);
+            decodedImages.add(new GalleryImage(Base64.getEncoder().encodeToString(baseImage.get().img.getData()), baseImage.get().id.toString(), baseImage.get().rover));
+        }
+        model.addAttribute("images" , decodedImages);
+        modelAndView.setViewName("kmeans.html");
+        return modelAndView;
+    }
     @Timed(value="clustering.get.time",description="time to clustering",percentiles={0.5,0.9})
     @GetMapping("/clustering")
     public ModelAndView clustering(@RequestParam("baseImageIdClustering") String baseImageIdClustering, Model model) {
-        System.out.print("Prova ");
+
         ModelAndView modelAndView = new ModelAndView();
         // get latest image and latest 12 images
         Optional<BaseImage> baseImagePrincipal = Imageservice.getBaseImageById(new ObjectId(baseImageIdClustering));
+        List<KMeansImage> kClusterZero= kMeansService.getKMeansByCluster(0);
+        List<KMeansImage> kClusterUno= kMeansService.getKMeansByCluster(1);
+        List<KMeansImage> kClusterDue= kMeansService.getKMeansByCluster(2);
+        model.addAttribute("cluster0", Base64.getEncoder().encodeToString(Imageservice.getBaseImageById(kClusterZero.get(0).baseimageid).get().img.getData()));
+        model.addAttribute("cluster1", Base64.getEncoder().encodeToString(Imageservice.getBaseImageById(kClusterUno.get(0).baseimageid).get().img.getData()));
+        model.addAttribute("cluster2", Base64.getEncoder().encodeToString(Imageservice.getBaseImageById(kClusterDue.get(0).baseimageid).get().img.getData()));
         /*if(baseImagePrincipal.isPresent() == false){
             modelAndView.setViewName("error.html");
             return modelAndView;

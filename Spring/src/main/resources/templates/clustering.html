@@ -60,6 +60,38 @@
         transform: translate(-50%, -50%);
         text-align: center;
     }
+    .left-navbar-cluster{
+        left: 0px;
+        position: absolute;
+        height: 80%;
+        width: 300px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        font-size: 24px;
+        padding: 20px;
+        margin-top: 10px;
+        border-top-right-radius: 25px;
+        border-bottom-right-radius: 25px;
+    }
+    .left-navbar-cluster p {
+        color: black;
+        text-align: center;
+    }
+    #clusterUno{
+        border-radius: 10%;
+        cursor: pointer;
+    }
+    #clusterDue{
+        border-radius: 10%;
+        cursor: pointer;
+    }
+    #clusterZero{
+        border-radius: 10%;
+        cursor: pointer;
+    }
 </style>
 
 <body>
@@ -75,6 +107,28 @@
 Il clustering consiste di un insieme di metodi per raggruppare oggetti in classi omogenee. Un cluster è un insieme di oggetti che presentano tra loro delle similarità, ma che, per contro, presentano dissimilarità con oggetti in altri cluster.
         </p>
     </div>
+
+    <div class="left-navbar-cluster">
+        <div>
+            <form id="cluster0-form" action="/kmeans" method="get">
+                <p>Cluster 0:</p>
+            <img th:src="*{'data:image/png;base64,'+cluster0}" alt="Cluster Zero" width="150px" height="auto" id="clusterZero">
+                <input hidden type="text" name="kMeansId" value="0">
+            </form>
+            <form id="cluster1-form" action="/kmeans" method="get">
+                <p>Cluster 1:</p>
+            <img th:src="*{'data:image/png;base64,'+cluster1}" alt="Cluster Uno" width="150px" height="auto" id="clusterUno">
+                <input hidden type="text" name="kMeansId" value="1">
+            </form>
+            <form id="cluster2-form" action="/kmeans" method="get">
+                <p>Cluster 2:</p>
+            <img th:src="*{'data:image/png;base64,'+cluster2}" alt="Cluster Due" width="150px" height="auto" id="clusterDue">
+                <input hidden type="text" name="kMeansId" value="2">
+            </form>
+        </div>
+    </div>
+
+
     <div class="container">
         <h3 th:text="'Cluster: '+ ${cluster}"></h3>
         <div class="image-container">
@@ -133,6 +187,19 @@ Il clustering consiste di un insieme di metodi per raggruppare oggetti in classi
 
         today = dd + '/' + mm + '/' + yyyy;
         $('.date').text(today);
+
+
+
+        $("#clusterZero").click(function () {
+            $("#cluster0-form").submit();
+        });
+        $("#clusterUno").click(function () {
+            $("#cluster1-form").submit();
+        });
+        $("#clusterDue").click(function () {
+            $("#cluster2-form").submit();
+        });
+
     });
 </script>
 
