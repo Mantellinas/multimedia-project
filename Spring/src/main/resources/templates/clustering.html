@@ -15,7 +15,7 @@
 </head>
 <style>
     .image-grid {
-        margin-top: 20px;
+        margin-top: 220px;
         display: grid;
         grid-template-columns: repeat(3, 1fr);
         grid-gap: 10px;
@@ -109,7 +109,7 @@ Il clustering consiste di un insieme di metodi per raggruppare oggetti in classi
     </div>
 
     <div class="left-navbar-cluster">
-        <div>
+        <div style="margin-top:50px">
             <form id="cluster0-form" action="/kmeans" method="get">
                 <p>Cluster 0:</p>
             <img th:src="*{'data:image/png;base64,'+cluster0}" alt="Cluster Zero" width="150px" height="auto" id="clusterZero">
@@ -131,7 +131,7 @@ Il clustering consiste di un insieme di metodi per raggruppare oggetti in classi
 
     <div class="container">
         <h3 th:text="'Cluster: '+ ${cluster}"></h3>
-        <div class="image-container">
+        <div class="image-container" style="margin-bottom:150px">
             <img th:src="*{'data:image/png;base64,'+imagebase}" alt="Image 2">
             <div class="caption">Immagine Originale</div>
         </div>
